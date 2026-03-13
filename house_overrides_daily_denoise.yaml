@@ -1,0 +1,48 @@
+defaults:
+  data:
+    drop_unlabeled_centers: false
+    preprocessing:
+      unattributed_mains_mask:
+        enabled: false
+        drop_rows: false
+  evaluate:
+    postprocess_predictions: true
+    mask_unknown_for_plots: false
+    mains_budget_postprocessing:
+      enabled: true
+      mode: proportional
+    device_postprocessing_params:
+      energy_washing_machine:
+        min_duration: 4
+        min_energy_value: 120
+        cycle_peak_min: 300
+      energy_dryer:
+        min_duration: 4
+        min_energy_value: 140
+        cycle_peak_min: 350
+      energy_ev:
+        min_duration: 6
+        min_energy_value: 1000
+        cycle_peak_min: 3000
+      energy_oven:
+        min_duration: 3
+        min_energy_value: 140
+        cycle_peak_min: 250
+      energy_induction_hob:
+        min_duration: 3
+        min_energy_value: 120
+        cycle_peak_min: 220
+      energy_dish_washer:
+        min_duration: 4
+        min_energy_value: 120
+        cycle_peak_min: 280
+
+houses:
+  certhckoz1h4:
+    evaluate:
+      # Keep washer stricter here to reduce false isolated peaks.
+      device_postprocessing_params:
+        energy_washing_machine:
+          min_duration: 5
+          min_energy_value: 180
+          cycle_peak_min: 1800

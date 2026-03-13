@@ -1,0 +1,165 @@
+action: evaluate
+paths:
+  train_data: DATA/splits_nilm_all_participants/train.csv
+  val_data: DATA/splits_nilm_all_participants/val.csv
+  test_data: DATA/splits_nilm_all_participants/test.csv
+  model_save: results/models/nilmformer_paper_all_participants_curriculum_v3_precision_best_model.pth
+  model_meta: results/models/nilmformer_paper_all_participants_curriculum_v3_precision_best_model_meta.json
+  input_scaler: results/models/nilmformer_paper_all_participants_curriculum_v3_precision_input_scaler.save
+  output_scaler: results/models/nilmformer_paper_all_participants_curriculum_v3_precision_output_scaler.save
+  predictions_csv: results/csv/nilmformer_paper_all_participants_curriculum_v3_precision_test_predictions.csv
+  plots_dir: results/plots
+  train_plot: results/plots/nilmformer_paper_all_participants_curriculum_v3_precision_training_validation_loss.png
+data:
+  participants: []
+  timestamp_col: timestamp
+  drop_unlabeled_centers: true
+  target_mode: sequence
+  max_rows_strategy: balanced_participants
+  max_rows_train: null
+  max_rows_val: null
+  max_rows_test: null
+  preprocessing:
+    correct_mains_vs_devices: false
+    gaussian_sigma: 0
+    align_mains_with_devices: false
+model:
+  type: nilmformer_paper
+  input_dim: 1
+  predict_onoff: true
+  c_embedding: 8
+  d_model: 96
+  n_encoder_layers: 3
+  nhead: 8
+  pffn_ratio: 4
+  dropout: 0.2
+  kernel_size: 3
+  kernel_size_head: 3
+  dilations:
+  - 1
+  - 2
+  - 4
+  - 8
+  conv_bias: true
+train:
+  window_size: 128
+  stride: 6
+  val_stride: 6
+  batch_size: 128
+  epochs: 12
+  learning_rate: 0.00015
+  weight_decay: 0.0001
+  patience: 4
+  lr_reduce_factor: 0.5
+  lr_patience: 3
+  runtime_device: cuda
+  num_workers: 2
+  force_retrain: true
+  balance_active_windows: true
+  per_device_sampling_boost: true
+  sampling_boost_power: 0.45
+  max_sampling_device_boost: 8.0
+  active_window_boost: 4.0
+  active_loss_weight: 1.6
+  use_device_frequency_weighting: true
+  min_device_weight: 0.5
+  max_device_weight: 4.0
+  onoff_aux_loss:
+    enabled: true
+    weight: 0.35
+    temperature: 30.0
+    warmup_epochs: 3
+    ramp_epochs: 4
+    regression_on_only: false
+    use_pos_weight: true
+    pos_weight_power: 0.15
+    max_pos_weight: 4.0
+  augmentation:
+    enabled: true
+    active_only: true
+    time_shift:
+      enabled: true
+      probability: 0.35
+      max_steps: 2
+    jitter:
+      enabled: true
+      probability: 0.1
+      std: 0.008
+  max_train_batches: null
+  max_val_batches: null
+  participant_gating:
+    enabled: true
+    min_active_points: 20
+    min_known_points: 200
+    unknown_participant_behavior: allow
+  device_list:
+  - energy_dish_washer
+  - energy_washing_machine
+  - energy_fridge_freezer
+  active_thresholds:
+    energy_dish_washer:
+      min_duration: 3
+      min_energy_value: 60
+    energy_washing_machine:
+      min_duration: 3
+      min_energy_value: 60
+    energy_fridge_freezer:
+      min_duration: 0
+      min_energy_value: 100
+    energy_oven:
+      min_duration: 3
+      min_energy_value: 100
+evaluate:
+  window_size: 128
+  batch_size: 256
+  stride: 6
+  runtime_device: cuda
+  num_workers: 2
+  use_saved_metadata: true
+  max_test_batches: null
+  plot_head: 9000
+  plot_include_mains: false
+  postprocess_predictions: true
+  postprocess_ground_truth: false
+  on_off_capture:
+    enabled: true
+    precision_min: 0.7
+    recall_min: 0.7
+    f1_min: 0.7
+    accuracy_min: null
+  participant_gating:
+    enabled: true
+    unknown_participant_behavior: allow
+  device_list:
+  - energy_dish_washer
+  - energy_washing_machine
+  - energy_fridge_freezer
+  active_thresholds:
+    energy_dish_washer:
+      min_duration: 3
+      min_energy_value: 60
+    energy_washing_machine:
+      min_duration: 3
+      min_energy_value: 60
+    energy_fridge_freezer:
+      min_duration: 0
+      min_energy_value: 100
+    energy_oven:
+      min_duration: 3
+      min_energy_value: 100
+  device_postprocessing_params:
+    energy_dish_washer:
+      min_duration: 5
+      min_energy_value: 140
+    energy_washing_machine:
+      min_duration: 4
+      min_energy_value: 120
+    energy_fridge_freezer:
+      min_duration: 0
+      min_energy_value: 100
+    energy_oven:
+      min_duration: 3
+      min_energy_value: 100
+extractsynthetic:
+  base_path: DATA/SyntheticData/data
+  days: 180

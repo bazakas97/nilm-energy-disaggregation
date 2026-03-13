@@ -1,0 +1,42 @@
+defaults:
+  # Shared overrides for all houses in the daily run.
+  data:
+    # For unlabeled daily inference CSVs, keep all windows.
+    drop_unlabeled_centers: false
+    preprocessing:
+      unattributed_mains_mask:
+        # In online daily inference, do not drop rows due to missing labels.
+        enabled: false
+        drop_rows: false
+  evaluate:
+    postprocess_predictions: true
+    # For unlabeled daily inference CSVs, still show predictions in plots.
+    mask_unknown_for_plots: false
+
+houses:
+  # House-specific overrides (merged on top of base config + defaults).
+  certhr5fwl7p:
+    data:
+      preprocessing:
+        label_gap_fill:
+          devices:
+            energy_ev:
+              max_gap_points: 8
+    evaluate:
+      device_postprocessing_params:
+        energy_ev:
+          min_duration: 4
+          min_energy_value: 500
+        energy_dryer:
+          min_duration: 3
+          min_energy_value: 120
+          cycle_peak_min: 350
+
+  certhckoz1h4:
+    evaluate:
+      onoff_probability_gating:
+        device_params:
+          energy_ac:
+            on_threshold: 0.7
+            off_threshold: 0.45
+            min_on_duration: 3

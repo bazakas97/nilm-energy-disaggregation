@@ -1,0 +1,142 @@
+action: evaluate
+data:
+  drop_unlabeled_centers: true
+  max_rows_strategy: balanced_participants
+  max_rows_test: null
+  max_rows_train: null
+  max_rows_val: null
+  participants: []
+  preprocessing:
+    align_mains_with_devices: false
+    correct_mains_vs_devices: false
+    gaussian_sigma: 0
+  timestamp_col: timestamp
+evaluate:
+  active_thresholds:
+    energy_dish_washer:
+      min_duration: 3
+      min_energy_value: 100
+    energy_fridge_freezer:
+      min_duration: 0
+      min_energy_value: 100
+    energy_oven:
+      min_duration: 3
+      min_energy_value: 100
+    energy_washing_machine:
+      min_duration: 3
+      min_energy_value: 100
+  batch_size: 256
+  device_list:
+  - energy_dish_washer
+  - energy_washing_machine
+  - energy_fridge_freezer
+  - energy_oven
+  device_postprocessing_params:
+    energy_dish_washer:
+      min_duration: 3
+      min_energy_value: 100
+    energy_fridge_freezer:
+      min_duration: 0
+      min_energy_value: 100
+    energy_oven:
+      min_duration: 3
+      min_energy_value: 100
+    energy_washing_machine:
+      min_duration: 3
+      min_energy_value: 100
+  max_test_batches: null
+  num_workers: 2
+  on_off_capture:
+    accuracy_min: null
+    enabled: true
+    f1_min: 0.7
+    precision_min: 0.7
+    recall_min: 0.7
+  participant_gating:
+    enabled: true
+    unknown_participant_behavior: allow
+  plot_head: 9000
+  postprocess_ground_truth: false
+  postprocess_predictions: false
+  runtime_device: auto
+  stride: 8
+  use_saved_metadata: true
+  window_size: 160
+extractsynthetic:
+  base_path: DATA/SyntheticData/data
+  days: 180
+model:
+  d_model: 128
+  dim_feedforward: 256
+  dropout: 0.1
+  input_dim: 1
+  nhead: 8
+  num_layers: 4
+  type: transformer
+paths:
+  input_scaler: results/models/full_stride_aug_input_scaler.save
+  model_meta: results/models/full_stride_aug_best_model_meta.json
+  model_save: results/models/full_stride_aug_best_model.pth
+  output_scaler: results/models/full_stride_aug_output_scaler.save
+  plots_dir: results/plots
+  predictions_csv: results/csv/full_stride_aug_test_predictions_nopost.csv
+  test_data: DATA/splits_nilm_all_participants/test.csv
+  train_data: DATA/splits_nilm_all_participants/train.csv
+  train_plot: results/plots/full_stride_aug_training_validation_loss.png
+  val_data: DATA/splits_nilm_all_participants/val.csv
+train:
+  active_loss_weight: 2.0
+  active_thresholds:
+    energy_dish_washer:
+      min_duration: 3
+      min_energy_value: 100
+    energy_fridge_freezer:
+      min_duration: 0
+      min_energy_value: 100
+    energy_oven:
+      min_duration: 3
+      min_energy_value: 100
+    energy_washing_machine:
+      min_duration: 3
+      min_energy_value: 100
+  active_window_boost: 4.0
+  augmentation:
+    active_only: true
+    enabled: true
+    jitter:
+      enabled: true
+      probability: 0.4
+      std: 0.02
+    time_shift:
+      enabled: true
+      max_steps: 3
+      probability: 0.6
+  balance_active_windows: true
+  batch_size: 128
+  device_list:
+  - energy_dish_washer
+  - energy_washing_machine
+  - energy_fridge_freezer
+  - energy_oven
+  epochs: 12
+  force_retrain: true
+  learning_rate: 0.0002
+  lr_patience: 3
+  lr_reduce_factor: 0.5
+  max_device_weight: 4.0
+  max_train_batches: null
+  max_val_batches: null
+  min_device_weight: 0.5
+  num_workers: 2
+  participant_gating:
+    enabled: true
+    min_active_points: 20
+    min_known_points: 200
+    unknown_participant_behavior: allow
+  patience: 4
+  runtime_device: auto
+  stride: 8
+  use_device_frequency_weighting: true
+  val_stride: 8
+  weight_decay: 0.0001
+  window_size: 160
