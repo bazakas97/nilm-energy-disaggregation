@@ -4,27 +4,27 @@ This project is Docker-ready for both CPU and GPU runs.
 
 ## 1) Build images
 
-From the project root (`NILMvPaper`):
+From the project root (`REEFLEX-NILM` repo):
 
 ```bash
-docker compose build nilm-cpu
-docker compose build nilm-gpu
+docker compose build reeflex-nilm-cpu
+docker compose build reeflex-nilm-gpu
 ```
 
-`nilm-gpu` uses CUDA PyTorch wheels (`cu121`) and requires NVIDIA Container Toolkit on the host.
+`reeflex-nilm-gpu` uses CUDA PyTorch wheels (`cu121`) and requires NVIDIA Container Toolkit on the host.
 
 ## 2) Run training
 
 CPU:
 
 ```bash
-docker compose run --rm nilm-cpu --config config_all_houses_all6_evgapfill.yaml
+docker compose run --rm reeflex-nilm-cpu --config config_all_houses_all6_evgapfill.yaml
 ```
 
 GPU:
 
 ```bash
-docker compose run --rm nilm-gpu --config config_all_houses_all6_evgapfill.yaml
+docker compose run --rm reeflex-nilm-gpu --config config_all_houses_all6_evgapfill.yaml
 ```
 
 ## 3) Run evaluation
@@ -32,13 +32,13 @@ docker compose run --rm nilm-gpu --config config_all_houses_all6_evgapfill.yaml
 CPU:
 
 ```bash
-docker compose run --rm nilm-cpu --config config_all_houses_all6_evgapfill_eval.yaml
+docker compose run --rm reeflex-nilm-cpu --config config_all_houses_all6_evgapfill_eval.yaml
 ```
 
 GPU:
 
 ```bash
-docker compose run --rm nilm-gpu --config config_all_houses_all6_evgapfill_eval.yaml
+docker compose run --rm reeflex-nilm-gpu --config config_all_houses_all6_evgapfill_eval.yaml
 ```
 
 ## 4) Custom config
@@ -46,14 +46,14 @@ docker compose run --rm nilm-gpu --config config_all_houses_all6_evgapfill_eval.
 Use any config by changing the final argument:
 
 ```bash
-docker compose run --rm nilm-gpu --config config_single_house_certhr5fwl7p_all6_evgapfill_eval.yaml
+docker compose run --rm reeflex-nilm-gpu --config config_single_house_certhr5fwl7p_all6_evgapfill_eval.yaml
 ```
 
 ## 5) Notes
 
 - Project folder is mounted into the container as `/workspace`.
 - Outputs are written back to host in `results/`.
-- If GPU is not available on server, use `nilm-cpu`.
+- If GPU is not available on server, use `reeflex-nilm-cpu`.
 
 ## 6) Daily Evaluation (One Day, All Houses)
 
@@ -114,10 +114,10 @@ python scripts/run_daily_eval.py \
 
 ## 8) Daily run on CPU server
 
-CPU-only server is supported. Use `nilm-cpu` service:
+CPU-only server is supported. Use `reeflex-nilm-cpu` service:
 
 ```bash
-docker compose run --rm --entrypoint python nilm-cpu \
+docker compose run --rm --entrypoint python reeflex-nilm-cpu \
   scripts/run_daily_eval.py \
   --base-config config_all_houses_all6_evgapfill_eval.yaml \
   --date yesterday \
@@ -130,13 +130,13 @@ docker compose run --rm --entrypoint python nilm-cpu \
 Example cron (runs every day at 02:10):
 
 ```cron
-10 2 * * * cd /path/to/NILMvPaper && docker compose run --rm --entrypoint python nilm-cpu scripts/run_daily_eval.py --base-config config_all_houses_all6_evgapfill_eval.yaml --date yesterday --per-house --run >> results/logs/daily_eval.log 2>&1
+10 2 * * * cd /path/to/REEFLEX-NILM && docker compose run --rm --entrypoint python reeflex-nilm-cpu scripts/run_daily_eval.py --base-config config_all_houses_all6_evgapfill_eval.yaml --date yesterday --per-house --run >> results/logs/daily_eval.log 2>&1
 ```
 
 Inside Docker (CPU):
 
 ```bash
-docker compose run --rm --entrypoint python nilm-cpu \
+docker compose run --rm --entrypoint python reeflex-nilm-cpu \
   scripts/run_daily_eval.py \
   --base-config config_all_houses_all6_evgapfill_eval.yaml \
   --date 2025-10-10 \

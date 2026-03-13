@@ -1,4 +1,4 @@
-# NILMvPaper (REEFLEX NILM)
+# REEFLEX-NILM
 
 Code + configs for energy disaggregation (NILM) using a NILMFormer-style model, plus scripts to fetch daily data from SEL API and run inference per-house.
 
@@ -49,4 +49,3 @@ High-level:
 ## Docker (CPU-friendly)
 
 See `DOCKER.md` for build/run instructions.
-

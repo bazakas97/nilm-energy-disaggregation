@@ -28,7 +28,7 @@ def resolve_config_paths(config, config_path):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="NILM Runner")
+    parser = argparse.ArgumentParser(description="REEFLEX-NILM runner")
     parser.add_argument("--config", type=str, required=True, help="Path to YAML configuration file")
     args = parser.parse_args()
 

@@ -1,13 +1,13 @@
 services:
-  nilm-cpu:
+  reeflex-nilm-cpu:
     build:
       context: .
       dockerfile: Dockerfile
       args:
         TORCH_VERSION: ${TORCH_VERSION:-2.5.1}
         TORCH_INDEX_URL: ${TORCH_INDEX_URL_CPU:-https://download.pytorch.org/whl/cpu}
-    image: nilmvpaper:cpu
-    container_name: nilmvpaper-cpu
+    image: reeflex-nilm:cpu
+    container_name: reeflex-nilm-cpu
     working_dir: /workspace
     volumes:
       - ./:/workspace
@@ -15,15 +15,15 @@ services:
       - PYTHONUNBUFFERED=1
     command: ["--config", "config_all_houses_all6_evgapfill_eval.yaml"]
 
-  nilm-gpu:
+  reeflex-nilm-gpu:
     build:
       context: .
       dockerfile: Dockerfile
       args:
         TORCH_VERSION: ${TORCH_VERSION:-2.5.1}
         TORCH_INDEX_URL: ${TORCH_INDEX_URL_GPU:-https://download.pytorch.org/whl/cu121}
-    image: nilmvpaper:gpu
-    container_name: nilmvpaper-gpu
+    image: reeflex-nilm:gpu
+    container_name: reeflex-nilm-gpu
     working_dir: /workspace
     volumes:
       - ./:/workspace
