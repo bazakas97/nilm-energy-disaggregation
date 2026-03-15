@@ -34,6 +34,16 @@ Notes:
 
 ## 3) Run inference for that day (per-house configs)
 
+Fastest option: use the wrapper that fetches + runs inference end-to-end:
+
+```bash
+python scripts/run_daily_pipeline.py \
+  --date 2026-03-12 \
+  --participants certhr5fwl7p,certhckoz1h4
+```
+
+Manual 2-step option:
+
 ```bash
 python scripts/run_daily_eval.py \
   --base-config configs/active/release_eval.yaml \

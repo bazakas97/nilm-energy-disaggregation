@@ -460,10 +460,41 @@ def apply_participant_device_gating(
     return gated, gated_values
 
 
+def merge_participant_device_availability(base_map, override_map):
+    merged = {}
+    if isinstance(base_map, dict):
+        for participant, device_rules in base_map.items():
+            if isinstance(device_rules, dict):
+                merged[str(participant)] = {str(dev): bool(flag) for dev, flag in device_rules.items()}
+
+    if isinstance(override_map, dict):
+        for participant, device_rules in override_map.items():
+            participant_key = str(participant)
+            existing = merged.get(participant_key, {}).copy()
+            if isinstance(device_rules, dict):
+                for dev, flag in device_rules.items():
+                    existing[str(dev)] = bool(flag)
+            merged[participant_key] = existing
+    return merged
+
+
+def resolve_report_device_subset(device_list, reported_device_list):
+    trained_device_list = list(device_list)
+    if not reported_device_list:
+        return trained_device_list, list(range(len(trained_device_list)))
+
+    index_by_device = {dev: idx for idx, dev in enumerate(trained_device_list)}
+    filtered_devices = [dev for dev in reported_device_list if dev in index_by_device]
+    if not filtered_devices:
+        return trained_device_list, list(range(len(trained_device_list)))
+    return filtered_devices, [index_by_device[dev] for dev in filtered_devices]
+
+
 def evaluate_model(
     model,
     test_data_path,
     device_list,
+    reported_device_list,
     thresholds_cfg,
     input_scaler,
     output_scaler,
@@ -590,6 +621,8 @@ def evaluate_model(
     pred_unscaled = output_scaler.inverse_transform(pred_scaled)
 
     threshold_vec = np.array([test_dataset.threshold_map[d] for d in device_list], dtype=np.float32)
+    report_device_list, report_indices = resolve_report_device_subset(device_list, reported_device_list)
+    report_threshold_vec = threshold_vec[report_indices]
     participant_arr = np.asarray(all_participants, dtype=object).astype(str)
 
     gating_cfg = participant_gating_cfg or {}
@@ -680,11 +713,11 @@ def evaluate_model(
 
     capture_cfg = eval_cfg.get("on_off_capture", {})
     overall_metrics = compute_device_metrics(
-        true_unscaled=true_unscaled,
-        pred_unscaled=pred_unscaled,
-        label_mask=label_mask,
-        threshold_vec=threshold_vec,
-        device_list=device_list,
+        true_unscaled=true_unscaled[:, report_indices],
+        pred_unscaled=pred_unscaled[:, report_indices],
+        label_mask=label_mask[:, report_indices],
+        threshold_vec=report_threshold_vec,
+        device_list=report_device_list,
         capture_cfg=capture_cfg,
     )
     print_device_metrics_block("[Overall Device Metrics]", overall_metrics)
@@ -695,11 +728,11 @@ def evaluate_model(
         for participant in unique_participants:
             part_mask = participant_arr == participant
             participant_metrics = compute_device_metrics(
-                true_unscaled=true_unscaled[part_mask],
-                pred_unscaled=pred_unscaled[part_mask],
-                label_mask=label_mask[part_mask],
-                threshold_vec=threshold_vec,
-                device_list=device_list,
+                true_unscaled=true_unscaled[part_mask][:, report_indices],
+                pred_unscaled=pred_unscaled[part_mask][:, report_indices],
+                label_mask=label_mask[part_mask][:, report_indices],
+                threshold_vec=report_threshold_vec,
+                device_list=report_device_list,
                 capture_cfg=capture_cfg,
             )
             per_participant_metrics[participant] = participant_metrics
@@ -717,12 +750,12 @@ def evaluate_model(
                 "mains": mains_unscaled,
             }
         )
-        for i, dev in enumerate(device_list):
-            df_save[f"{dev}_true"] = true_unscaled[:, i]
-            df_save[f"{dev}_pred"] = pred_unscaled[:, i]
-            df_save[f"{dev}_known"] = label_mask[:, i]
+        for report_idx, dev in zip(report_indices, report_device_list):
+            df_save[f"{dev}_true"] = true_unscaled[:, report_idx]
+            df_save[f"{dev}_pred"] = pred_unscaled[:, report_idx]
+            df_save[f"{dev}_known"] = label_mask[:, report_idx]
             if onoff_prob is not None:
-                df_save[f"{dev}_onoff_prob"] = onoff_prob[:, i]
+                df_save[f"{dev}_onoff_prob"] = onoff_prob[:, report_idx]
         df_save.to_csv(predictions_csv, index=False)
         print(f"Predictions saved to '{predictions_csv}'")
 
@@ -756,10 +789,10 @@ def evaluate_model(
         plot_head = int(eval_cfg.get("plot_head", 9000))
         plot_include_mains = bool(eval_cfg.get("plot_include_mains", False))
         mask_unknown_for_plots = bool(eval_cfg.get("mask_unknown_for_plots", True))
-        for i, dev in enumerate(device_list):
-            known = label_mask[:, i] > 0.5
-            true_plot = true_unscaled[:, i].copy()
-            pred_plot = pred_unscaled[:, i].copy()
+        for report_idx, dev in zip(report_indices, report_device_list):
+            known = label_mask[:, report_idx] > 0.5
+            true_plot = true_unscaled[:, report_idx].copy()
+            pred_plot = pred_unscaled[:, report_idx].copy()
             if mask_unknown_for_plots:
                 true_plot[~known] = np.nan
                 pred_plot[~known] = np.nan
@@ -801,13 +834,13 @@ def evaluate_model(
                 part_timestamps = timestamps_arr[part_mask]
                 part_mains = mains_unscaled[part_mask]
 
-                for i, dev in enumerate(device_list):
-                    known = label_mask[part_mask, i] > 0.5
+                for report_idx, dev in zip(report_indices, report_device_list):
+                    known = label_mask[part_mask, report_idx] > 0.5
                     if int(known.sum()) < min_known_for_plot:
                         continue
 
-                    part_true = true_unscaled[part_mask, i].copy()
-                    part_pred = pred_unscaled[part_mask, i].copy()
+                    part_true = true_unscaled[part_mask, report_idx].copy()
+                    part_pred = pred_unscaled[part_mask, report_idx].copy()
                     if mask_unknown_for_plots:
                         part_true[~known] = np.nan
                         part_pred[~known] = np.nan
@@ -847,6 +880,7 @@ def main(config):
     window_size = int(eval_cfg["window_size"])
     batch_size = int(eval_cfg["batch_size"])
     device_list = list(eval_cfg["device_list"])
+    requested_reported_device_list = list(eval_cfg.get("reported_device_list", device_list))
     thresholds_cfg = eval_cfg.get("active_thresholds", device_thresholds)
 
     runtime_device = str(eval_cfg.get("runtime_device", "auto")).lower()
@@ -859,6 +893,7 @@ def main(config):
     model_meta_path = paths.get("model_meta")
     use_saved_metadata = bool(eval_cfg.get("use_saved_metadata", True))
     participant_device_availability = {}
+    participant_device_availability_override = eval_cfg.get("participant_device_availability_override", {})
     participant_gating_cfg = eval_cfg.get("participant_gating", {})
     if model_meta_path and use_saved_metadata and os.path.exists(model_meta_path):
         with open(model_meta_path, "r", encoding="utf-8") as f:
@@ -885,6 +920,18 @@ def main(config):
         if "participant_gating" in metadata and not participant_gating_cfg:
             participant_gating_cfg = metadata["participant_gating"]
 
+    participant_device_availability = merge_participant_device_availability(
+        participant_device_availability,
+        participant_device_availability_override,
+    )
+    reported_device_list, report_indices = resolve_report_device_subset(device_list, requested_reported_device_list)
+    if reported_device_list != device_list:
+        print(f"Reporting subset of devices: {reported_device_list}")
+    elif requested_reported_device_list and len(requested_reported_device_list) != len(device_list):
+        missing_devices = [dev for dev in requested_reported_device_list if dev not in device_list]
+        if missing_devices:
+            print(f"Ignoring unknown reported devices not present in trained model: {missing_devices}")
+
     if not os.path.exists(paths["model_save"]):
         print("No saved model found. Please train first.")
         return
@@ -908,6 +955,7 @@ def main(config):
         model=model,
         test_data_path=test_data_path,
         device_list=device_list,
+        reported_device_list=reported_device_list,
         thresholds_cfg=thresholds_cfg,
         input_scaler=input_scaler,
         output_scaler=output_scaler,

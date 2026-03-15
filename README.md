@@ -60,6 +60,20 @@ This trains the current “official” NILMFormer-style configuration and saves 
 
 ## Daily SEL API inference
 
+One-command daily pipeline:
+
+```bash
+python scripts/run_daily_pipeline.py \
+  --date 2026-03-15 \
+  --participants certhr5fwl7p,certhckoz1h4
+```
+
+This wrapper does:
+
+1. fetch one day from SEL API
+2. build the merged daily CSV
+3. run per-house inference with `configs/active/release_eval.yaml`
+
 Set credentials:
 
 ```bash
@@ -90,6 +104,25 @@ python scripts/run_daily_eval.py \
 
 If the daily CSV has no appliance labels, metrics are not meaningful. In that case, inspect the predictions CSVs and the HTML plots.
 
+## What preprocessing is currently implemented
+
+Fetch-time preprocessing in `scripts/fetch_sel_daily.py`:
+
+- converts SEL energy values to power
+- reindexes each participant/day to a fixed 1-minute grid
+- interpolates only short gaps
+- drops house/day when mains missing ratio is too high
+
+Inference-time preprocessing in the active configs:
+
+- `participant_data_filter`
+- EV `label_gap_fill`
+- `unattributed_mains_mask`
+- participant/device gating
+- postprocessing thresholds and denoising from the active config / house overrides
+
+This means the pipeline is operational, but house-specific postprocessing is still configurable and not “final for every house forever”.
+
 ## Repository layout
 
 - `configs/active/`: supported configs
@@ -102,4 +135,3 @@ If the daily CSV has no appliance labels, metrics are not meaningful. In that ca
 ## Docker
 
 Docker support is available, but it is optional. See `DOCKER.md` if you want a containerized run.
-

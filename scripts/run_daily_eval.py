@@ -1,14 +1,18 @@
 #!/usr/bin/env python3
 import argparse
 import copy
+import json
 import os
 import re
+import shutil
 import subprocess
 import sys
 from datetime import datetime, timedelta
 
 import pandas as pd
 import yaml
+
+from fetch_sel_daily import map_device_to_column
 
 
 def parse_args():
@@ -160,10 +164,102 @@ def resolve_path(base_dir, path):
     return os.path.normpath(os.path.join(base_dir, path))
 
 
+def find_project_dir(start_path):
+    current = os.path.abspath(start_path)
+    if os.path.isfile(current):
+        current = os.path.dirname(current)
+    while True:
+        if os.path.exists(os.path.join(current, "run.py")):
+            return current
+        parent = os.path.dirname(current)
+        if parent == current:
+            raise FileNotFoundError("Could not locate project root containing run.py.")
+        current = parent
+
+
 def discover_participants_from_split_csv(csv_path):
     df = pd.read_csv(csv_path, usecols=["participant"])
     values = sorted(df["participant"].astype(str).dropna().unique().tolist())
     return [v for v in values if str(v).strip()]
+
+
+def load_sensor_devices(sensor_json_path):
+    if not sensor_json_path or not os.path.exists(sensor_json_path):
+        return []
+    with open(sensor_json_path, "r", encoding="utf-8") as f:
+        payload = json.load(f) or {}
+    devices = []
+    for sensor in payload.get("sensors", []) or []:
+        column = map_device_to_column(sensor.get("device_type"))
+        if not column or column == "energy_mains":
+            continue
+        if column not in devices:
+            devices.append(column)
+    return devices
+
+
+def infer_participant_devices_from_csv(csv_path, participant):
+    if not csv_path or not os.path.exists(csv_path):
+        return []
+    df = pd.read_csv(csv_path)
+    if "participant" not in df.columns:
+        return []
+    df = df[df["participant"].astype(str) == str(participant)]
+    if df.empty:
+        return []
+
+    devices = []
+    for col in df.columns:
+        if not str(col).startswith("energy_"):
+            continue
+        if col == "energy_mains":
+            continue
+        if df[col].notna().any():
+            devices.append(col)
+    return devices
+
+
+def resolve_participant_devices(project_dir, split_csv_path, day_tag, participant):
+    merged_csv_dir = os.path.dirname(split_csv_path) if split_csv_path else ""
+    sensor_json_path = (
+        os.path.join(merged_csv_dir, f"{participant}_sensors.json")
+        if merged_csv_dir and os.path.basename(merged_csv_dir) == day_tag
+        else ""
+    )
+
+    sensor_devices = load_sensor_devices(sensor_json_path)
+    if sensor_devices:
+        return sensor_devices, sensor_json_path, "sensor_json"
+
+    inferred_devices = infer_participant_devices_from_csv(split_csv_path, participant)
+    return inferred_devices, sensor_json_path if sensor_json_path else None, "csv_columns"
+
+
+def apply_sensor_aware_device_filter(cfg, participant, available_devices):
+    if not available_devices:
+        return []
+
+    eval_cfg = cfg.setdefault("evaluate", {})
+    trained_device_list = list(eval_cfg.get("device_list", []))
+    if not trained_device_list:
+        return []
+
+    filtered = [dev for dev in trained_device_list if dev in set(available_devices)]
+    if not filtered:
+        return []
+
+    eval_cfg["reported_device_list"] = filtered
+
+    availability_override = eval_cfg.get("participant_device_availability_override")
+    if isinstance(availability_override, dict):
+        availability_override = copy.deepcopy(availability_override)
+    else:
+        availability_override = {}
+    availability_override[str(participant)] = {
+        dev: (dev in filtered) for dev in trained_device_list
+    }
+    eval_cfg["participant_device_availability_override"] = availability_override
+    return filtered
 
 
 def set_day_filter(cfg, split_name, start, end):
@@ -235,6 +331,13 @@ def write_config(path, cfg):
         yaml.safe_dump(cfg, f, sort_keys=False)
 
 
+def clear_previous_outputs(cfg):
+    paths_cfg = cfg.get("paths", {}) or {}
+    plots_dir = paths_cfg.get("plots_dir")
+    if plots_dir and os.path.isdir(plots_dir):
+        shutil.rmtree(plots_dir)
+
+
 def run_config(project_dir, config_path):
     cmd = [sys.executable, "run.py", "--config", config_path]
     print("Running:", " ".join(cmd))
@@ -244,7 +347,8 @@ def run_config(project_dir, config_path):
 def main():
     args = parse_args()
     base_config_path = os.path.abspath(args.base_config)
-    project_dir = os.path.dirname(base_config_path)
+    project_dir = find_project_dir(base_config_path)
+    base_config_dir = os.path.dirname(base_config_path)
 
     base_cfg = load_yaml(base_config_path)
     base_cfg["action"] = "evaluate"
@@ -294,19 +398,40 @@ def main():
             cfg = deep_merge(cfg, house_profiles.get("houses", {}).get(participant, {}))
             cfg["action"] = "evaluate"
 
+            split_csv_path = ""
             set_day_filter(cfg, split_name, start, end)
             set_split_participants(cfg, split_name, [participant])
             if args.split_data_csv:
-                set_split_data_path(cfg, split_name, resolve_path(project_dir, args.split_data_csv))
+                split_csv_path = resolve_path(project_dir, args.split_data_csv)
+                set_split_data_path(cfg, split_name, split_csv_path)
             apply_output_tags(cfg, day_tag=day_tag, participant=participant)
             if not args.keep_participant_filter:
                 disable_participant_filter_for_daily(cfg)
-            absolutize_paths(cfg, project_dir)
+
+            available_devices, sensor_json_path, source_kind = resolve_participant_devices(
+                project_dir=project_dir,
+                split_csv_path=split_csv_path,
+                day_tag=day_tag,
+                participant=participant,
+            )
+            filtered_devices = apply_sensor_aware_device_filter(
+                cfg=cfg,
+                participant=participant,
+                available_devices=available_devices,
+            )
+            absolutize_paths(cfg, base_config_dir)
 
             out_cfg_path = os.path.join(output_dir, f"{sanitize_tag(participant)}.yaml")
             write_config(out_cfg_path, cfg)
             generated_configs.append((participant, out_cfg_path))
             print(f"Generated config [{participant}]: {out_cfg_path}")
+            if filtered_devices:
+                print(
+                    f"  sensor-aware devices ({source_kind}): {filtered_devices}"
+                    + (f" | sensors={sensor_json_path}" if sensor_json_path else "")
+                )
+            else:
+                print("  sensor-aware devices: none detected, keeping full trained device list")
 
         print(f"Day range: {start} -> {end}")
         print(f"Participants: {participants}")
@@ -320,6 +445,8 @@ def main():
         failures = []
         for participant, cfg_path in generated_configs:
             try:
+                cfg_for_run = load_yaml(cfg_path)
+                clear_previous_outputs(cfg_for_run)
                 run_config(project_dir, cfg_path)
             except subprocess.CalledProcessError as exc:
                 failures.append((participant, exc.returncode))
@@ -347,7 +474,7 @@ def main():
     apply_output_tags(cfg, day_tag=day_tag, participant=None)
     if not args.keep_participant_filter:
         disable_participant_filter_for_daily(cfg)
-    absolutize_paths(cfg, project_dir)
+    absolutize_paths(cfg, base_config_dir)
 
     if args.output_config:
         output_config_path = resolve_path(project_dir, args.output_config)
@@ -373,6 +500,7 @@ def main():
         print("Dry mode only. Add --run to execute evaluation.")
         return
 
+    clear_previous_outputs(cfg)
     run_config(project_dir, output_config_path)
 
 
