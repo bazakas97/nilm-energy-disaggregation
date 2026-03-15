@@ -73,6 +73,7 @@ This wrapper does:
 1. fetch one day from SEL API
 2. build the merged daily CSV
 3. run per-house inference with `configs/active/release_eval.yaml`
+4. automatically restrict reported outputs to the devices detected for each house from the fetched SEL sensors
 
 Set credentials:
 
@@ -101,6 +102,19 @@ python scripts/run_daily_eval.py \
   --house-overrides configs/active/house_overrides_daily.example.yaml \
   --run
 ```
+
+This daily inference path is sensor-aware:
+
+- it reads the fetched `*_sensors.json` for each participant
+- keeps only the devices that actually belong to that house
+- writes plots / prediction columns / reported metrics only for that subset
+
+Daily outputs are written to:
+
+- `DATA/daily_sel_api/YYYYMMDD/`: fetched and normalized daily data
+- `results/generated_configs/daily_eval_<split>_YYYYMMDD/`: generated per-house configs
+- `results/csv/`: predictions CSV and metrics JSON
+- `results/plots_*/YYYYMMDD/<participant>/`: Plotly HTML plots per house
 
 If the daily CSV has no appliance labels, metrics are not meaningful. In that case, inspect the predictions CSVs and the HTML plots.
 
