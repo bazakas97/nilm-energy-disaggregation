@@ -25,4 +25,4 @@ COPY . /app
 WORKDIR /workspace
 
 ENTRYPOINT ["python", "run.py"]
-CMD ["--config", "config_all_houses_all6_evgapfill_eval.yaml"]
+CMD ["--config", "configs/active/release_eval.yaml"]

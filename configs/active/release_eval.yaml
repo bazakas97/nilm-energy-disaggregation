@@ -1,19 +1,21 @@
-action: train
+action: evaluate
 
 paths:
-  train_data: DATA/splits_nilm_mains5_rebuilt_60_20_20/train.csv
-  val_data: DATA/splits_nilm_mains5_rebuilt_60_20_20/val.csv
-  test_data: DATA/splits_nilm_mains5_rebuilt_60_20_20/test.csv
+  train_data: ../../DATA/splits_nilm_mains5_rebuilt_60_20_20/train.csv
+  val_data: ../../DATA/splits_nilm_mains5_rebuilt_60_20_20/val.csv
+  test_data: ../../DATA/splits_nilm_mains5_rebuilt_60_20_20/test.csv
 
-  model_save: results/models/nilmformer_paper_mains5_all10_60_20_20_best_model.pth
-  model_meta: results/models/nilmformer_paper_mains5_all10_60_20_20_best_model_meta.json
-  input_scaler: results/models/nilmformer_paper_mains5_all10_60_20_20_input_scaler.save
-  output_scaler: results/models/nilmformer_paper_mains5_all10_60_20_20_output_scaler.save
+  # Model bundle is tracked under `models/` so the repo can run inference without
+  # depending on local `results/models` artifacts.
+  model_save: ../../models/nilmformer_paper_mains5_all10_60_20_20/best_model.pth
+  model_meta: ../../models/nilmformer_paper_mains5_all10_60_20_20/meta.json
+  input_scaler: ../../models/nilmformer_paper_mains5_all10_60_20_20/input_scaler.save
+  output_scaler: ../../models/nilmformer_paper_mains5_all10_60_20_20/output_scaler.save
 
-  predictions_csv: results/csv/nilmformer_paper_mains5_all10_60_20_20_test_predictions.csv
-  metrics_json: results/csv/nilmformer_paper_mains5_all10_60_20_20_test_predictions_metrics.json
-  plots_dir: results/plots_nilmformer_paper_mains5_all10_60_20_20
-  train_plot: results/plots/nilmformer_paper_mains5_all10_60_20_20_training_validation_loss.png
+  predictions_csv: ../../results/csv/nilmformer_paper_mains5_all10_60_20_20_test_predictions.csv
+  metrics_json: ../../results/csv/nilmformer_paper_mains5_all10_60_20_20_test_predictions_metrics.json
+  plots_dir: ../../results/plots_nilmformer_paper_mains5_all10_60_20_20
+  train_plot: ../../results/plots/nilmformer_paper_mains5_all10_60_20_20_training_validation_loss.png
 
 data:
   participants: []
@@ -92,9 +94,6 @@ train:
   learning_rate: 0.0002
   weight_decay: 0.0001
   patience: 6
-  early_stop_metric: f1_micro
-  early_stop_mode: max
-  no_progress: false
 
   lr_reduce_factor: 0.5
   lr_patience: 3
@@ -263,5 +262,5 @@ evaluate:
   device_postprocessing_params: *post_params
 
 extractsynthetic:
-  base_path: DATA/SyntheticData/data
+  base_path: ../../DATA/SyntheticData/data
   days: 180

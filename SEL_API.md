@@ -36,12 +36,12 @@ Notes:
 
 ```bash
 python scripts/run_daily_eval.py \
-  --base-config config_release_eval.yaml \
+  --base-config configs/active/release_eval.yaml \
   --date 2026-03-12 \
   --split test \
   --split-data-csv DATA/daily_sel_api/20260312/daily_20260312_merged.csv \
   --per-house \
-  --house-overrides house_overrides_daily.example.yaml \
+  --house-overrides configs/active/house_overrides_daily.example.yaml \
   --run
 ```
 
@@ -51,4 +51,3 @@ This produces:
 - Plotly HTML plots under `results/plots_*/`
 
 If your daily data does not include appliance ground-truth labels (only `energy_mains` exists), metrics like F1/MAE are not meaningful; focus on predictions + plots.
-

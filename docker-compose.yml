@@ -13,7 +13,7 @@ services:
       - ./:/workspace
     environment:
       - PYTHONUNBUFFERED=1
-    command: ["--config", "config_all_houses_all6_evgapfill_eval.yaml"]
+    command: ["--config", "configs/active/release_eval.yaml"]
 
   reeflex-nilm-gpu:
     build:
@@ -31,4 +31,4 @@ services:
       - PYTHONUNBUFFERED=1
       - CUDA_VISIBLE_DEVICES=${CUDA_VISIBLE_DEVICES:-0}
     gpus: all
-    command: ["--config", "config_all_houses_all6_evgapfill_eval.yaml"]
+    command: ["--config", "configs/active/release_eval.yaml"]

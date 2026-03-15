@@ -16,7 +16,7 @@ def parse_args():
     parser.add_argument(
         "--base-config",
         type=str,
-        default="config_release_eval.yaml",
+        default="configs/active/release_eval.yaml",
         help="Base evaluation YAML config.",
     )
     parser.add_argument(
