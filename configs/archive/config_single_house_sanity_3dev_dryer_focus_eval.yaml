@@ -1,0 +1,214 @@
+action: evaluate
+paths:
+  train_data: DATA/splits_nilm_all_participants/train.csv
+  val_data: DATA/splits_nilm_all_participants/val.csv
+  test_data: DATA/splits_nilm_all_participants/test.csv
+  model_save: results/models/single_house_certhr5fwl7p_3dev_dryer_focus_best_model.pth
+  model_meta: results/models/single_house_certhr5fwl7p_3dev_dryer_focus_best_model_meta.json
+  input_scaler: results/models/single_house_certhr5fwl7p_3dev_dryer_focus_input_scaler.save
+  output_scaler: results/models/single_house_certhr5fwl7p_3dev_dryer_focus_output_scaler.save
+  predictions_csv: results/csv/single_house_certhr5fwl7p_3dev_dryer_focus_test_predictions_raw.csv
+  plots_dir: results/plots_single_house_certhr5fwl7p_3dev_dryer_focus
+  train_plot: results/plots/single_house_certhr5fwl7p_3dev_dryer_focus_training_validation_loss.png
+data:
+  participants: []
+  participants_train:
+    - certhr5fwl7p
+  participants_val:
+    - certhr5fwl7p
+  participants_test:
+    - certhr5fwl7p
+  timestamp_col: timestamp
+  drop_unlabeled_centers: true
+  target_mode: point
+  max_rows_strategy: balanced_participants
+  max_rows_train: null
+  max_rows_val: null
+  max_rows_test: null
+  preprocessing:
+    correct_mains_vs_devices: false
+    gaussian_sigma: 0
+    align_mains_with_devices: false
+model:
+  type: nilmformer_paper
+  input_dim: 1
+  predict_onoff: true
+  c_embedding: 8
+  d_model: 96
+  n_encoder_layers: 3
+  nhead: 8
+  pffn_ratio: 4
+  dropout: 0.2
+  kernel_size: 3
+  kernel_size_head: 3
+  dilations:
+    - 1
+    - 2
+    - 4
+    - 8
+  conv_bias: true
+train:
+  window_size: 128
+  stride: 4
+  val_stride: 4
+  batch_size: 128
+  epochs: 16
+  learning_rate: 0.0002
+  weight_decay: 0.0001
+  patience: 5
+  lr_reduce_factor: 0.5
+  lr_patience: 3
+  runtime_device: auto
+  num_workers: 2
+  force_retrain: true
+  balance_active_windows: true
+  per_device_sampling_boost: false
+  sampling_boost_power: 0.45
+  max_sampling_device_boost: 8.0
+  active_window_boost: 4.0
+  active_loss_weight: 2.5
+  use_device_frequency_weighting: false
+  min_device_weight: 0.5
+  max_device_weight: 4.0
+  onoff_aux_loss:
+    enabled: true
+    weight: 0.25
+    temperature: 30.0
+    warmup_epochs: 2
+    ramp_epochs: 3
+    regression_on_only: true
+    use_pos_weight: true
+    pos_weight_power: 0.35
+    max_pos_weight: 12.0
+  augmentation:
+    enabled: true
+    active_only: true
+    time_shift:
+      enabled: true
+      probability: 0.4
+      max_steps: 3
+    jitter:
+      enabled: true
+      probability: 0.2
+      std: 0.01
+  validation_postprocessing:
+    enabled: true
+    clip_negative: true
+    default_to_active_threshold: true
+    default_min_duration: 2
+    onoff_probability_gating:
+      enabled: true
+      on_threshold: 0.62
+      off_threshold: 0.38
+      min_on_duration: 2
+      device_params:
+        energy_washing_machine:
+          on_threshold: 0.64
+          off_threshold: 0.4
+          min_on_duration: 3
+        energy_dryer:
+          on_threshold: 0.72
+          off_threshold: 0.5
+          min_on_duration: 5
+        energy_ev:
+          on_threshold: 0.74
+          off_threshold: 0.52
+          min_on_duration: 4
+    device_postprocessing_params:
+      energy_washing_machine:
+        min_duration: 3
+        min_energy_value: 60
+      energy_dryer:
+        min_duration: 5
+        min_energy_value: 130
+      energy_ev:
+        min_duration: 4
+        min_energy_value: 500
+  max_train_batches: null
+  max_val_batches: null
+  participant_gating:
+    enabled: true
+    min_active_points: 20
+    min_known_points: 200
+    unknown_participant_behavior: allow
+  device_list:
+    - energy_washing_machine
+    - energy_dryer
+    - energy_ev
+  active_thresholds:
+    energy_washing_machine:
+      min_duration: 3
+      min_energy_value: 60
+    energy_dryer:
+      min_duration: 4
+      min_energy_value: 120
+    energy_ev:
+      min_duration: 3
+      min_energy_value: 500
+evaluate:
+  split_name: test
+  window_size: 128
+  batch_size: 256
+  stride: 4
+  runtime_device: auto
+  num_workers: 2
+  use_saved_metadata: true
+  max_test_batches: null
+  plot_head: 9000
+  plot_include_mains: true
+  postprocess_predictions: true
+  postprocess_ground_truth: false
+  on_off_capture:
+    enabled: true
+    precision_min: 0.5
+    recall_min: 0.5
+    f1_min: 0.5
+    accuracy_min: null
+  onoff_probability_gating:
+    enabled: true
+    on_threshold: 0.62
+    off_threshold: 0.38
+    min_on_duration: 2
+    device_params:
+      energy_washing_machine:
+        on_threshold: 0.64
+        off_threshold: 0.4
+        min_on_duration: 3
+      energy_dryer:
+        on_threshold: 0.72
+        off_threshold: 0.5
+        min_on_duration: 5
+      energy_ev:
+        on_threshold: 0.74
+        off_threshold: 0.52
+        min_on_duration: 4
+  participant_gating:
+    enabled: true
+    unknown_participant_behavior: allow
+  device_list:
+    - energy_washing_machine
+    - energy_dryer
+    - energy_ev
+  active_thresholds:
+    energy_washing_machine:
+      min_duration: 3
+      min_energy_value: 60
+    energy_dryer:
+      min_duration: 5
+      min_energy_value: 130
+    energy_ev:
+      min_duration: 3
+      min_energy_value: 500
+  device_postprocessing_params:
+    energy_washing_machine:
+      min_duration: 3
+      min_energy_value: 60
+    energy_dryer:
+      min_duration: 5
+      min_energy_value: 130
+    energy_ev:
+      min_duration: 4
+      min_energy_value: 500
+extractsynthetic:
+  base_path: DATA/SyntheticData/data
+  days: 180

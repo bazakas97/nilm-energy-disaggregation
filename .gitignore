@@ -1,0 +1,29 @@
+# Large datasets / generated artifacts (do not commit)
+DATA/
+results/
+
+# Python cache / artifacts
+__pycache__/
+**/__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environments
+.venv/
+venv/
+env/
+.conda/
+*.egg-info/
+
+# Local credentials / secrets (keep out of git)
+SEL_API (2).md
+SEL_API.local.md
+.env
+.env.*
+!.env.example
+
+# Editor / OS noise
+.DS_Store
+.idea/
+.vscode/
+

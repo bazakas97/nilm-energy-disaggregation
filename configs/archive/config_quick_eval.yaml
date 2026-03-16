@@ -1,0 +1,147 @@
+action: evaluate  # train | evaluate | extractsynthetic
+
+paths:
+  train_data: "DATA/splits_nilm_all_participants/train.csv"
+  val_data: "DATA/splits_nilm_all_participants/val.csv"
+  test_data: "DATA/splits_nilm_all_participants/test.csv"
+  model_save: "results/models/quick_best_model.pth"
+  model_meta: "results/models/quick_best_model_meta.json"
+  input_scaler: "results/models/quick_input_scaler.save"
+  output_scaler: "results/models/quick_output_scaler.save"
+  predictions_csv: "results/csv/quick_test_predictions.csv"
+  plots_dir: "results/plots"
+  train_plot: "results/plots/quick_training_validation_loss.png"
+
+data:
+  participants: []
+  timestamp_col: "timestamp"
+  drop_unlabeled_centers: true
+  max_rows_strategy: "balanced_participants"
+  max_rows_train: 400000
+  max_rows_val: 120000
+  max_rows_test: 120000
+  preprocessing:
+    correct_mains_vs_devices: false
+    gaussian_sigma: 0
+    align_mains_with_devices: false
+
+model:
+  type: transformer
+  input_dim: 1
+  d_model: 64
+  nhead: 8
+  num_layers: 2
+  dim_feedforward: 128
+  dropout: 0.1
+
+train:
+  window_size: 160
+  stride: 3
+  val_stride: 3
+  batch_size: 128
+  epochs: 12
+  learning_rate: 0.0003
+  weight_decay: 0.0001
+  patience: 4
+  lr_reduce_factor: 0.5
+  lr_patience: 2
+  runtime_device: auto
+  num_workers: 2
+  force_retrain: true
+
+  balance_active_windows: true
+  active_window_boost: 4.0
+  active_loss_weight: 2.0
+  use_device_frequency_weighting: true
+  min_device_weight: 0.5
+  max_device_weight: 4.0
+
+  # Hard cap for very fast iterations
+  max_train_batches: 700
+  max_val_batches: 120
+
+  participant_gating:
+    enabled: true
+    min_active_points: 20
+    min_known_points: 200
+    unknown_participant_behavior: "allow"
+
+  device_list:
+    - "energy_dish_washer"
+    - "energy_washing_machine"
+    - "energy_fridge_freezer"
+    - "energy_oven"
+
+  active_thresholds:
+    energy_dish_washer:
+      min_duration: 3
+      min_energy_value: 100
+    energy_washing_machine:
+      min_duration: 3
+      min_energy_value: 100
+    energy_fridge_freezer:
+      min_duration: 0
+      min_energy_value: 100
+    energy_oven:
+      min_duration: 3
+      min_energy_value: 100
+
+evaluate:
+  window_size: 160
+  batch_size: 256
+  stride: 1
+  runtime_device: auto
+  num_workers: 2
+  use_saved_metadata: true
+  max_test_batches: 200
+  plot_head: 3000
+
+  postprocess_predictions: true
+  postprocess_ground_truth: false
+  on_off_capture:
+    enabled: true
+    precision_min: 0.70
+    recall_min: 0.70
+    f1_min: 0.70
+    accuracy_min:
+  participant_gating:
+    enabled: true
+    unknown_participant_behavior: "allow"
+
+  device_list:
+    - "energy_dish_washer"
+    - "energy_washing_machine"
+    - "energy_fridge_freezer"
+    - "energy_oven"
+
+  active_thresholds:
+    energy_dish_washer:
+      min_duration: 3
+      min_energy_value: 100
+    energy_washing_machine:
+      min_duration: 3
+      min_energy_value: 100
+    energy_fridge_freezer:
+      min_duration: 0
+      min_energy_value: 100
+    energy_oven:
+      min_duration: 3
+      min_energy_value: 100
+
+  device_postprocessing_params:
+    energy_dish_washer:
+      min_duration: 3
+      min_energy_value: 100
+    energy_washing_machine:
+      min_duration: 3
+      min_energy_value: 100
+    energy_fridge_freezer:
+      min_duration: 0
+      min_energy_value: 100
+    energy_oven:
+      min_duration: 3
+      min_energy_value: 100
+
+extractsynthetic:
+  base_path: "DATA/SyntheticData/data"
+  days: 180

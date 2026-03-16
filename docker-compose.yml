@@ -1,0 +1,34 @@
+services:
+  reeflex-nilm-cpu:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        TORCH_VERSION: ${TORCH_VERSION:-2.5.1}
+        TORCH_INDEX_URL: ${TORCH_INDEX_URL_CPU:-https://download.pytorch.org/whl/cpu}
+    image: reeflex-nilm:cpu
+    container_name: reeflex-nilm-cpu
+    working_dir: /workspace
+    volumes:
+      - ./:/workspace
+    environment:
+      - PYTHONUNBUFFERED=1
+    command: ["--config", "configs/active/release_eval.yaml"]
+
+  reeflex-nilm-gpu:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        TORCH_VERSION: ${TORCH_VERSION:-2.5.1}
+        TORCH_INDEX_URL: ${TORCH_INDEX_URL_GPU:-https://download.pytorch.org/whl/cu121}
+    image: reeflex-nilm:gpu
+    container_name: reeflex-nilm-gpu
+    working_dir: /workspace
+    volumes:
+      - ./:/workspace
+    environment:
+      - PYTHONUNBUFFERED=1
+      - CUDA_VISIBLE_DEVICES=${CUDA_VISIBLE_DEVICES:-0}
+    gpus: all
+    command: ["--config", "configs/active/release_eval.yaml"]
