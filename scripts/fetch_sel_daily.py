@@ -3,6 +3,7 @@ import argparse
 import json
 import os
 import re
+import time
 from datetime import datetime, timedelta
 
 import numpy as np
@@ -130,6 +131,12 @@ def parse_args():
         help="Interpolation method for short gaps.",
     )
     parser.add_argument("--timeout", type=int, default=60)
+    parser.add_argument(
+        "--inter-request-sleep-seconds",
+        type=float,
+        default=1.0,
+        help="Sleep between sequential SEL API requests for the same participant.",
+    )
     return parser.parse_args()
 
 
@@ -404,6 +411,8 @@ def main():
             },
             timeout=args.timeout,
         )
+        if float(args.inter_request_sleep_seconds) > 0:
+            time.sleep(float(args.inter_request_sleep_seconds))
         fetch_payload = call_sel_api(
             session=session,
             fetch_url=args.fetch_url,
