@@ -219,6 +219,13 @@ def infer_participant_devices_from_csv(csv_path, participant):
     return devices
 
 
+def count_participant_rows_in_csv(csv_path, participant):
+    if not csv_path or not os.path.exists(csv_path):
+        return None
+    df = pd.read_csv(csv_path, usecols=["participant"])
+    return int((df["participant"].astype(str) == str(participant)).sum())
+
+
 def resolve_participant_devices(project_dir, split_csv_path, day_tag, participant):
     merged_csv_dir = os.path.dirname(split_csv_path) if split_csv_path else ""
     sensor_json_path = (
@@ -392,6 +399,7 @@ def main():
             raise ValueError("No participants found for per-house daily run.")
 
         generated_configs = []
+        skipped_participants = []
         for participant in participants:
             cfg = copy.deepcopy(base_cfg)
             cfg = deep_merge(cfg, house_profiles.get("defaults", {}))
@@ -403,6 +411,11 @@ def main():
             set_split_participants(cfg, split_name, [participant])
             if args.split_data_csv:
                 split_csv_path = resolve_path(project_dir, args.split_data_csv)
+                participant_rows = count_participant_rows_in_csv(split_csv_path, participant)
+                if participant_rows == 0:
+                    skipped_participants.append((participant, "no rows in split-data CSV"))
+                    print(f"[SKIP] {participant}: no rows in {split_csv_path}")
+                    continue
                 set_split_data_path(cfg, split_name, split_csv_path)
             apply_output_tags(cfg, day_tag=day_tag, participant=participant)
             if not args.keep_participant_filter:
@@ -437,9 +450,15 @@ def main():
         print(f"Participants: {participants}")
         if participant_filter_disabled:
             print("Daily mode: participant_data_filter is disabled.")
+        if skipped_participants:
+            print("Skipped participants:", skipped_participants)
 
         if not args.run:
             print("Dry mode only. Add --run to execute evaluation.")
+            return
+
+        if not generated_configs:
+            print("No runnable participant configs were generated.")
             return
 
         failures = []

@@ -210,6 +210,7 @@ evaluate:
   window_size: 128
   batch_size: 256
   stride: 6
+  dense_sequence_reconstruction: true
   runtime_device: auto
   num_workers: 2
   use_saved_metadata: true
@@ -218,6 +219,7 @@ evaluate:
   plot_head: 12000
   plot_include_mains: true
   mask_unknown_for_plots: true
+  mask_unknown_predictions_for_plots: false
 
   postprocess_predictions: true
   postprocess_ground_truth: false

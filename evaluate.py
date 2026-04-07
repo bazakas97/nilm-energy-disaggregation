@@ -131,6 +131,24 @@ def center_slice_if_sequence(tensor):
     return tensor
 
 
+def extend_sequence_eval_centers_for_full_coverage(dataset):
+    if not getattr(dataset, "valid_centers", None):
+        return 0
+
+    extra_centers = []
+    first_center = int(dataset.left_context)
+    last_center = int(len(dataset.data) - dataset.right_context)
+    for center in (first_center, last_center):
+        if center >= dataset.left_context and center not in dataset.valid_centers:
+            extra_centers.append(center)
+
+    if not extra_centers:
+        return 0
+
+    dataset.valid_centers = sorted(set(int(c) for c in dataset.valid_centers + extra_centers))
+    return len(extra_centers)
+
+
 def align_prediction_and_targets(power_pred, onoff_logits, target, label_mask):
     pred = power_pred
     logits = onoff_logits
@@ -171,6 +189,15 @@ def line_plot(df, x_col, y_cols, title="", filename="line_plot.html"):
         ),
     )
     plot(fig, auto_open=False, filename=filename)
+
+
+def zero_small_values(values, min_abs_value):
+    arr = np.asarray(values, dtype=np.float32).copy()
+    if min_abs_value is None or float(min_abs_value) <= 0.0:
+        return arr
+    mask = np.isfinite(arr) & (np.abs(arr) < float(min_abs_value))
+    arr[mask] = 0.0
+    return arr
 
 
 def safe_r2(y_true, y_pred):
@@ -525,6 +552,20 @@ def evaluate_model(
     )
     print("Evaluation date filter:", {"start": date_start, "end": date_end})
 
+    target_mode = data_cfg.get("target_mode", "point")
+    dense_sequence_reconstruction = bool(eval_cfg.get("dense_sequence_reconstruction", False))
+    use_dense_sequence_reconstruction = bool(
+        dense_sequence_reconstruction and str(target_mode).strip().lower() == "sequence"
+    )
+
+    drop_unlabeled_centers = bool(data_cfg.get("drop_unlabeled_centers", True))
+    if use_dense_sequence_reconstruction and drop_unlabeled_centers:
+        print(
+            "[Dense Reconstruction] Overriding data.drop_unlabeled_centers=True -> False "
+            "to preserve full-timeline inference coverage."
+        )
+        drop_unlabeled_centers = False
+
     test_dataset = NILMDataset(
         data_path=test_data_path,
         window_size=window_size,
@@ -535,15 +576,20 @@ def evaluate_model(
         stride=int(eval_cfg.get("stride", 1)),
         is_training=False,
         participant_filter=participant_filter,
-        drop_unlabeled_centers=bool(data_cfg.get("drop_unlabeled_centers", True)),
+        drop_unlabeled_centers=drop_unlabeled_centers,
         preprocessing_cfg=data_cfg.get("preprocessing", {}),
         timestamp_col=data_cfg.get("timestamp_col"),
         start_timestamp=date_start,
         end_timestamp=date_end,
         max_rows=data_cfg.get("max_rows_test"),
         max_rows_strategy=max_rows_strategy,
-        target_mode=data_cfg.get("target_mode", "point"),
+        target_mode=target_mode,
     )
+
+    if use_dense_sequence_reconstruction:
+        added_centers = extend_sequence_eval_centers_for_full_coverage(test_dataset)
+        if added_centers:
+            print(f"[Dense Reconstruction] Added {added_centers} edge center(s) for full coverage.")
 
     test_loader = DataLoader(
         test_dataset,
@@ -563,6 +609,17 @@ def evaluate_model(
     all_timestamps = []
     all_participants = []
     all_onoff_prob = []
+
+    dense_pred_sum = None
+    dense_pred_count = None
+    dense_onoff_sum = None
+    dense_onoff_count = None
+    dense_sample_offset = 0
+    if use_dense_sequence_reconstruction:
+        n_rows = len(test_dataset.data)
+        n_devices = len(device_list)
+        dense_pred_sum = np.zeros((n_rows, n_devices), dtype=np.float64)
+        dense_pred_count = np.zeros((n_rows, n_devices), dtype=np.float32)
 
     max_test_batches = eval_cfg.get("max_test_batches")
     with torch.no_grad():
@@ -585,21 +642,57 @@ def evaluate_model(
             total_loss += float(loss.item())
             n_batches += 1
 
-            metric_true = center_slice_if_sequence(batch_y)
-            metric_pred = center_slice_if_sequence(pred_scaled)
-            metric_mask = center_slice_if_sequence(batch_mask)
-            all_true_scaled.append(metric_true.cpu().numpy())
-            all_pred_scaled.append(metric_pred.cpu().numpy())
-            all_mask.append(metric_mask.cpu().numpy())
-            if onoff_logits is not None:
-                all_onoff_prob.append(torch.sigmoid(center_slice_if_sequence(onoff_logits)).cpu().numpy())
+            if use_dense_sequence_reconstruction:
+                pred_np = pred_scaled.detach().cpu().numpy()
+                onoff_prob_np = torch.sigmoid(onoff_logits).cpu().numpy() if onoff_logits is not None else None
+                batch_size_now = int(pred_np.shape[0])
+                batch_centers = test_dataset.valid_centers[dense_sample_offset : dense_sample_offset + batch_size_now]
+                if len(batch_centers) != batch_size_now:
+                    raise ValueError(
+                        "Dense reconstruction center indexing mismatch: "
+                        f"expected {batch_size_now}, got {len(batch_centers)}"
+                    )
 
-            center_idx = window_size // 2
-            center_mains_scaled = batch_x[:, center_idx, :].cpu().numpy()
-            center_mains_unscaled = input_scaler.inverse_transform(center_mains_scaled).flatten()
-            all_mains_unscaled.append(center_mains_unscaled)
-            all_timestamps.extend([str(ts) for ts in batch_ts])
-            all_participants.extend([str(p) for p in batch_participants])
+                if pred_np.ndim == 3 and dense_onoff_sum is None and onoff_prob_np is not None:
+                    dense_onoff_sum = np.zeros_like(dense_pred_sum, dtype=np.float64)
+                    dense_onoff_count = np.zeros_like(dense_pred_count, dtype=np.float32)
+
+                for sample_idx, center_idx in enumerate(batch_centers):
+                    if pred_np.ndim == 3:
+                        start_idx = int(center_idx - test_dataset.left_context)
+                        end_idx = int(center_idx + test_dataset.right_context)
+                        dense_pred_sum[start_idx:end_idx] += pred_np[sample_idx]
+                        dense_pred_count[start_idx:end_idx] += 1.0
+                        if onoff_prob_np is not None:
+                            dense_onoff_sum[start_idx:end_idx] += onoff_prob_np[sample_idx]
+                            dense_onoff_count[start_idx:end_idx] += 1.0
+                    else:
+                        dense_pred_sum[int(center_idx)] += pred_np[sample_idx]
+                        dense_pred_count[int(center_idx)] += 1.0
+                        if onoff_prob_np is not None:
+                            if dense_onoff_sum is None:
+                                dense_onoff_sum = np.zeros_like(dense_pred_sum, dtype=np.float64)
+                                dense_onoff_count = np.zeros_like(dense_pred_count, dtype=np.float32)
+                            dense_onoff_sum[int(center_idx)] += onoff_prob_np[sample_idx]
+                            dense_onoff_count[int(center_idx)] += 1.0
+
+                dense_sample_offset += batch_size_now
+            else:
+                metric_true = center_slice_if_sequence(batch_y)
+                metric_pred = center_slice_if_sequence(pred_scaled)
+                metric_mask = center_slice_if_sequence(batch_mask)
+                all_true_scaled.append(metric_true.cpu().numpy())
+                all_pred_scaled.append(metric_pred.cpu().numpy())
+                all_mask.append(metric_mask.cpu().numpy())
+                if onoff_logits is not None:
+                    all_onoff_prob.append(torch.sigmoid(center_slice_if_sequence(onoff_logits)).cpu().numpy())
+
+                center_idx = window_size // 2
+                center_mains_scaled = batch_x[:, center_idx, :].cpu().numpy()
+                center_mains_unscaled = input_scaler.inverse_transform(center_mains_scaled).flatten()
+                all_mains_unscaled.append(center_mains_unscaled)
+                all_timestamps.extend([str(ts) for ts in batch_ts])
+                all_participants.extend([str(p) for p in batch_participants])
 
             if max_test_batches and batch_idx >= max_test_batches:
                 break
@@ -611,14 +704,41 @@ def evaluate_model(
     scaled_loss = total_loss / n_batches
     print(f"\n[TEST] Masked MSE (scaled): {scaled_loss:.6f}")
 
-    true_scaled = np.concatenate(all_true_scaled, axis=0)
-    pred_scaled = np.concatenate(all_pred_scaled, axis=0)
-    label_mask = np.concatenate(all_mask, axis=0)
-    mains_unscaled = np.concatenate(all_mains_unscaled, axis=0)
-    onoff_prob = np.concatenate(all_onoff_prob, axis=0) if all_onoff_prob else None
+    if use_dense_sequence_reconstruction:
+        pred_count_safe = np.where(dense_pred_count > 0, dense_pred_count, 1.0)
+        pred_scaled = (dense_pred_sum / pred_count_safe).astype(np.float32)
+        uncovered_rows = np.logical_not((dense_pred_count > 0).any(axis=1))
+        uncovered_count = int(uncovered_rows.sum())
+        if uncovered_count:
+            print(
+                f"[Dense Reconstruction] Warning: {uncovered_count} row(s) had no prediction coverage; "
+                "they will remain zero-filled."
+            )
 
-    true_unscaled = output_scaler.inverse_transform(true_scaled)
-    pred_unscaled = output_scaler.inverse_transform(pred_scaled)
+        if dense_onoff_sum is not None and dense_onoff_count is not None:
+            onoff_count_safe = np.where(dense_onoff_count > 0, dense_onoff_count, 1.0)
+            onoff_prob = (dense_onoff_sum / onoff_count_safe).astype(np.float32)
+        else:
+            onoff_prob = None
+
+        true_unscaled = test_dataset.raw_targets.astype(np.float32)
+        label_mask = test_dataset.label_mask.astype(np.float32)
+        mains_unscaled = input_scaler.inverse_transform(test_dataset.mains_scaled.reshape(-1, 1)).flatten()
+        all_timestamps = [str(ts) for ts in test_dataset.timestamps]
+        all_participants = [str(p) for p in test_dataset.participants]
+        pred_unscaled = output_scaler.inverse_transform(pred_scaled)
+        print(
+            f"[Dense Reconstruction] Exporting {len(all_timestamps)} row(s) at native timeline resolution."
+        )
+    else:
+        true_scaled = np.concatenate(all_true_scaled, axis=0)
+        pred_scaled = np.concatenate(all_pred_scaled, axis=0)
+        label_mask = np.concatenate(all_mask, axis=0)
+        mains_unscaled = np.concatenate(all_mains_unscaled, axis=0)
+        onoff_prob = np.concatenate(all_onoff_prob, axis=0) if all_onoff_prob else None
+
+        true_unscaled = output_scaler.inverse_transform(true_scaled)
+        pred_unscaled = output_scaler.inverse_transform(pred_scaled)
 
     threshold_vec = np.array([test_dataset.threshold_map[d] for d in device_list], dtype=np.float32)
     report_device_list, report_indices = resolve_report_device_subset(device_list, reported_device_list)
@@ -750,8 +870,13 @@ def evaluate_model(
                 "mains": mains_unscaled,
             }
         )
+        mask_unknown_for_csv = bool(eval_cfg.get("mask_unknown_for_csv", True))
         for report_idx, dev in zip(report_indices, report_device_list):
-            df_save[f"{dev}_true"] = true_unscaled[:, report_idx]
+            known = label_mask[:, report_idx] > 0.5
+            true_save = true_unscaled[:, report_idx].copy()
+            if mask_unknown_for_csv:
+                true_save[~known] = np.nan
+            df_save[f"{dev}_true"] = true_save
             df_save[f"{dev}_pred"] = pred_unscaled[:, report_idx]
             df_save[f"{dev}_known"] = label_mask[:, report_idx]
             if onoff_prob is not None:
@@ -789,13 +914,27 @@ def evaluate_model(
         plot_head = int(eval_cfg.get("plot_head", 9000))
         plot_include_mains = bool(eval_cfg.get("plot_include_mains", False))
         mask_unknown_for_plots = bool(eval_cfg.get("mask_unknown_for_plots", True))
+        mask_unknown_predictions_for_plots = bool(
+            eval_cfg.get("mask_unknown_predictions_for_plots", mask_unknown_for_plots)
+        )
+        zero_below_threshold_for_plots = bool(eval_cfg.get("plot_zero_below_device_threshold", True))
+        plot_min_value_override = eval_cfg.get("plot_zero_below_value")
         for report_idx, dev in zip(report_indices, report_device_list):
             known = label_mask[:, report_idx] > 0.5
             true_plot = true_unscaled[:, report_idx].copy()
             pred_plot = pred_unscaled[:, report_idx].copy()
             if mask_unknown_for_plots:
                 true_plot[~known] = np.nan
+            if mask_unknown_predictions_for_plots:
                 pred_plot[~known] = np.nan
+            if zero_below_threshold_for_plots:
+                plot_floor = float(test_dataset.threshold_map[dev])
+            elif plot_min_value_override is not None:
+                plot_floor = float(plot_min_value_override)
+            else:
+                plot_floor = None
+            true_plot = zero_small_values(true_plot, plot_floor)
+            pred_plot = zero_small_values(pred_plot, plot_floor)
 
             df_plot = pd.DataFrame(
                 {
@@ -843,7 +982,16 @@ def evaluate_model(
                     part_pred = pred_unscaled[part_mask, report_idx].copy()
                     if mask_unknown_for_plots:
                         part_true[~known] = np.nan
+                    if mask_unknown_predictions_for_plots:
                         part_pred[~known] = np.nan
+                    if zero_below_threshold_for_plots:
+                        plot_floor = float(test_dataset.threshold_map[dev])
+                    elif plot_min_value_override is not None:
+                        plot_floor = float(plot_min_value_override)
+                    else:
+                        plot_floor = None
+                    part_true = zero_small_values(part_true, plot_floor)
+                    part_pred = zero_small_values(part_pred, plot_floor)
 
                     df_part_plot = pd.DataFrame(
                         {

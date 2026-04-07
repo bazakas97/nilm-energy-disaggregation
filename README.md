@@ -163,18 +163,25 @@ If the daily CSV has no appliance labels, metrics are not meaningful. In that ca
 
 ## 5) Output semantics and current resolution
 
-Why do daily raw data look 1-minute, but predictions / results look 4-6 minutes apart?
+Why do fetched raw data use 1-minute resolution, while the model config still says `evaluate.stride: 6`?
 
 - fetched SEL daily data are regularized to a fixed 1-minute grid
-- the current model is evaluated with `evaluate.stride: 6`
-- this means we emit one prediction every 6 minutes, not every raw minute
+- the current model still runs sliding windows with `evaluate.stride: 6`
+- however, the active config also enables dense sequence reconstruction (`dense_sequence_reconstruction: true`)
+- this means the seq2seq outputs from overlapping windows are merged back onto the original timeline
+- so the exported predictions / plots now return to 1-minute resolution
 
-Why do predictions start later than `00:00` and stop before `23:59`?
+Why do predictions now cover the full `00:00` to `23:59` daily range?
 
-- the current configuration uses `window_size: 128`
-- the dataset needs left/right context around each prediction center
-- with a 128-step window on 1-minute data, the first valid center appears after the left context and the last valid center appears before the right context
-- so edge timestamps are dropped because a full context window cannot be formed there
+- the model itself is still window-based (`window_size: 128`)
+- dense reconstruction merges all overlapping sequence predictions back to the underlying per-minute timeline
+- the evaluation path also adds edge coverage for the first/last valid windows
+- so a daily run with a complete 1440-row input day now exports a full 1440-row prediction timeline
+
+Note:
+
+- older artifacts generated before dense reconstruction was enabled may still look sparse or truncated
+- the current `release_eval.yaml` behavior is full-day, 1-minute export
 
 What do the prediction CSV columns mean?
 
