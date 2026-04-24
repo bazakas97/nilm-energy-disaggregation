@@ -1,0 +1,2578 @@
+{
+  "generated_at": "2026-04-21T15:00:48Z",
+  "dates": [
+    "20240802",
+    "20240803",
+    "20240804"
+  ],
+  "by_date": {
+    "20240802": {
+      "houses": [
+        "certh15crq5w",
+        "certh7zcqwmc",
+        "certh97dgl14",
+        "certhckoz1h4",
+        "certhr5fwl7p",
+        "certhtwo505o"
+      ],
+      "plots": {
+        "certh15crq5w": {
+          "devices": [
+            "energy_dish_washer",
+            "energy_fridge_freezer",
+            "energy_induction_hob",
+            "energy_oven",
+            "energy_washing_machine"
+          ],
+          "plot_files": {
+            "energy_dish_washer": {
+              "device_label": "Dish Washer",
+              "relative_path": "assets/plots/20240802/certh15crq5w/energy_dish_washer_test_plot.html"
+            },
+            "energy_fridge_freezer": {
+              "device_label": "Fridge Freezer",
+              "relative_path": "assets/plots/20240802/certh15crq5w/energy_fridge_freezer_test_plot.html"
+            },
+            "energy_induction_hob": {
+              "device_label": "Induction Hob",
+              "relative_path": "assets/plots/20240802/certh15crq5w/energy_induction_hob_test_plot.html"
+            },
+            "energy_oven": {
+              "device_label": "Oven",
+              "relative_path": "assets/plots/20240802/certh15crq5w/energy_oven_test_plot.html"
+            },
+            "energy_washing_machine": {
+              "device_label": "Washing Machine",
+              "relative_path": "assets/plots/20240802/certh15crq5w/energy_washing_machine_test_plot.html"
+            }
+          }
+        },
+        "certh7zcqwmc": {
+          "devices": [
+            "energy_dish_washer",
+            "energy_fridge_freezer",
+            "energy_oven",
+            "energy_pv",
+            "energy_washing_machine"
+          ],
+          "plot_files": {
+            "energy_dish_washer": {
+              "device_label": "Dish Washer",
+              "relative_path": "assets/plots/20240802/certh7zcqwmc/energy_dish_washer_test_plot.html"
+            },
+            "energy_fridge_freezer": {
+              "device_label": "Fridge Freezer",
+              "relative_path": "assets/plots/20240802/certh7zcqwmc/energy_fridge_freezer_test_plot.html"
+            },
+            "energy_oven": {
+              "device_label": "Oven",
+              "relative_path": "assets/plots/20240802/certh7zcqwmc/energy_oven_test_plot.html"
+            },
+            "energy_pv": {
+              "device_label": "Pv",
+              "relative_path": "assets/plots/20240802/certh7zcqwmc/energy_pv_test_plot.html"
+            },
+            "energy_washing_machine": {
+              "device_label": "Washing Machine",
+              "relative_path": "assets/plots/20240802/certh7zcqwmc/energy_washing_machine_test_plot.html"
+            }
+          }
+        },
+        "certh97dgl14": {
+          "devices": [
+            "energy_ac",
+            "energy_dish_washer",
+            "energy_ev",
+            "energy_ewh",
+            "energy_fridge_freezer",
+            "energy_oven",
+            "energy_washing_machine"
+          ],
+          "plot_files": {
+            "energy_ac": {
+              "device_label": "Ac",
+              "relative_path": "assets/plots/20240802/certh97dgl14/energy_ac_test_plot.html"
+            },
+            "energy_dish_washer": {
+              "device_label": "Dish Washer",
+              "relative_path": "assets/plots/20240802/certh97dgl14/energy_dish_washer_test_plot.html"
+            },
+            "energy_ev": {
+              "device_label": "Ev",
+              "relative_path": "assets/plots/20240802/certh97dgl14/energy_ev_test_plot.html"
+            },
+            "energy_ewh": {
+              "device_label": "Ewh",
+              "relative_path": "assets/plots/20240802/certh97dgl14/energy_ewh_test_plot.html"
+            },
+            "energy_fridge_freezer": {
+              "device_label": "Fridge Freezer",
+              "relative_path": "assets/plots/20240802/certh97dgl14/energy_fridge_freezer_test_plot.html"
+            },
+            "energy_oven": {
+              "device_label": "Oven",
+              "relative_path": "assets/plots/20240802/certh97dgl14/energy_oven_test_plot.html"
+            },
+            "energy_washing_machine": {
+              "device_label": "Washing Machine",
+              "relative_path": "assets/plots/20240802/certh97dgl14/energy_washing_machine_test_plot.html"
+            }
+          }
+        },
+        "certhckoz1h4": {
+          "devices": [
+            "energy_ac",
+            "energy_dish_washer",
+            "energy_fridge_freezer",
+            "energy_washing_machine"
+          ],
+          "plot_files": {
+            "energy_ac": {
+              "device_label": "Ac",
+              "relative_path": "assets/plots/20240802/certhckoz1h4/energy_ac_test_plot.html"
+            },
+            "energy_dish_washer": {
+              "device_label": "Dish Washer",
+              "relative_path": "assets/plots/20240802/certhckoz1h4/energy_dish_washer_test_plot.html"
+            },
+            "energy_fridge_freezer": {
+              "device_label": "Fridge Freezer",
+              "relative_path": "assets/plots/20240802/certhckoz1h4/energy_fridge_freezer_test_plot.html"
+            },
+            "energy_washing_machine": {
+              "device_label": "Washing Machine",
+              "relative_path": "assets/plots/20240802/certhckoz1h4/energy_washing_machine_test_plot.html"
+            }
+          }
+        },
+        "certhr5fwl7p": {
+          "devices": [
+            "energy_dish_washer",
+            "energy_dryer",
+            "energy_ev",
+            "energy_induction_hob",
+            "energy_oven",
+            "energy_washing_machine"
+          ],
+          "plot_files": {
+            "energy_dish_washer": {
+              "device_label": "Dish Washer",
+              "relative_path": "assets/plots/20240802/certhr5fwl7p/energy_dish_washer_test_plot.html"
+            },
+            "energy_dryer": {
+              "device_label": "Dryer",
+              "relative_path": "assets/plots/20240802/certhr5fwl7p/energy_dryer_test_plot.html"
+            },
+            "energy_ev": {
+              "device_label": "Ev",
+              "relative_path": "assets/plots/20240802/certhr5fwl7p/energy_ev_test_plot.html"
+            },
+            "energy_induction_hob": {
+              "device_label": "Induction Hob",
+              "relative_path": "assets/plots/20240802/certhr5fwl7p/energy_induction_hob_test_plot.html"
+            },
+            "energy_oven": {
+              "device_label": "Oven",
+              "relative_path": "assets/plots/20240802/certhr5fwl7p/energy_oven_test_plot.html"
+            },
+            "energy_washing_machine": {
+              "device_label": "Washing Machine",
+              "relative_path": "assets/plots/20240802/certhr5fwl7p/energy_washing_machine_test_plot.html"
+            }
+          }
+        },
+        "certhtwo505o": {
+          "devices": [
+            "energy_dish_washer",
+            "energy_ewh",
+            "energy_fridge_freezer",
+            "energy_washing_machine"
+          ],
+          "plot_files": {
+            "energy_dish_washer": {
+              "device_label": "Dish Washer",
+              "relative_path": "assets/plots/20240802/certhtwo505o/energy_dish_washer_test_plot.html"
+            },
+            "energy_ewh": {
+              "device_label": "Ewh",
+              "relative_path": "assets/plots/20240802/certhtwo505o/energy_ewh_test_plot.html"
+            },
+            "energy_fridge_freezer": {
+              "device_label": "Fridge Freezer",
+              "relative_path": "assets/plots/20240802/certhtwo505o/energy_fridge_freezer_test_plot.html"
+            },
+            "energy_washing_machine": {
+              "device_label": "Washing Machine",
+              "relative_path": "assets/plots/20240802/certhtwo505o/energy_washing_machine_test_plot.html"
+            }
+          }
+        }
+      },
+      "metrics": {
+        "certh15crq5w": {
+          "house_summary": {
+            "on_off_f1_micro": null,
+            "on_off_f1_macro": null,
+            "on_off_precision_micro": null,
+            "on_off_recall_micro": 0.0,
+            "mae_weighted_active": 58.75,
+            "sae_weighted_active": 1.0
+          },
+          "overall": {
+            "energy_dish_washer": {
+              "known_points": 1438,
+              "active_points": 0,
+              "teca": null,
+              "r2": null,
+              "mae": null,
+              "mse": null,
+              "sae": null,
+              "on_off_precision": null,
+              "on_off_recall": null,
+              "on_off_f1": null,
+              "on_off_accuracy": 1.0,
+              "on_off_captured": false,
+              "tp": 0,
+              "fp": 0,
+              "fn": 0,
+              "tn": 1438
+            },
+            "energy_fridge_freezer": {
+              "known_points": 373,
+              "active_points": 4,
+              "teca": 50.0,
+              "r2": -225.40816326530611,
+              "mae": 58.75,
+              "mse": 3466.875,
+              "sae": 1.0,
+              "on_off_precision": null,
+              "on_off_recall": 0.0,
+              "on_off_f1": null,
+              "on_off_accuracy": 0.9892761394101877,
+              "on_off_captured": false,
+              "tp": 0,
+              "fp": 0,
+              "fn": 4,
+              "tn": 369
+            },
+            "energy_washing_machine": {
+              "known_points": 1438,
+              "active_points": 0,
+              "teca": null,
+              "r2": null,
+              "mae": null,
+              "mse": null,
+              "sae": null,
+              "on_off_precision": null,
+              "on_off_recall": null,
+              "on_off_f1": null,
+              "on_off_accuracy": 1.0,
+              "on_off_captured": false,
+              "tp": 0,
+              "fp": 0,
+              "fn": 0,
+              "tn": 1438
+            },
+            "energy_oven": {
+              "known_points": 373,
+              "active_points": 0,
+              "teca": null,
+              "r2": null,
+              "mae": null,
+              "mse": null,
+              "sae": null,
+              "on_off_precision": null,
+              "on_off_recall": null,
+              "on_off_f1": null,
+              "on_off_accuracy": 1.0,
+              "on_off_captured": false,
+              "tp": 0,
+              "fp": 0,
+              "fn": 0,
+              "tn": 373
+            },
+            "energy_induction_hob": {
+              "known_points": 373,
+              "active_points": 0,
+              "teca": null,
+              "r2": null,
+              "mae": null,
+              "mse": null,
+              "sae": null,
+              "on_off_precision": null,
+              "on_off_recall": null,
+              "on_off_f1": null,
+              "on_off_accuracy": 1.0,
+              "on_off_captured": false,
+              "tp": 0,
+              "fp": 0,
+              "fn": 0,
+              "tn": 373
+            }
+          }
+        },
+        "certh7zcqwmc": {
+          "house_summary": {
+            "on_off_f1_micro": 0.596100278551532,
+            "on_off_f1_macro": 0.8975647198381131,
+            "on_off_precision_micro": 0.9145299145299145,
+            "on_off_recall_micro": 0.44214876033057854,
+            "mae_weighted_active": 96.86882983121005,
+            "sae_weighted_active": 0.5362408447537355
+          },
+          "overall": {
+            "energy_dish_washer": {
+              "known_points": 291,
+              "active_points": 26,
+              "teca": 85.0012995173109,
+              "r2": 0.10556616089671456,
+              "mae": 64.47364807128906,
+              "mse": 5943.787109375,
+              "sae": 0.04796291432299189,
+              "on_off_precision": 0.88,
+              "on_off_recall": 0.8461538461538461,
+              "on_off_f1": 0.8627450980392156,
+              "on_off_accuracy": 0.9759450171821306,
+              "on_off_captured": true,
+              "tp": 22,
+              "fp": 3,
+              "fn": 4,
+              "tn": 262
+            },
+            "energy_fridge_freezer": {
+              "known_points": 1435,
+              "active_points": 987,
+              "teca": 50.0,
+              "r2": -6.249016991777526,
+              "mae": 76.55268859863281,
+              "mse": 6798.111328125,
+              "sae": 1.0,
+              "on_off_precision": null,
+              "on_off_recall": 0.0,
+              "on_off_f1": null,
+              "on_off_accuracy": 0.3121951219512195,
+              "on_off_captured": false,
+              "tp": 0,
+              "fp": 0,
+              "fn": 987,
+              "tn": 448
+            },
+            "energy_pv": {
+              "known_points": 1436,
+              "active_points": 1103,
+              "teca": 95.64974719363937,
+              "r2": 0.9824375428864183,
+              "mae": 82.62261962890625,
+              "mse": 12791.115234375,
+              "sae": 0.004946335930772301,
+              "on_off_precision": 0.9152838427947598,
+              "on_off_recall": 0.9501359927470535,
+              "on_off_f1": 0.9323843416370107,
+              "on_off_accuracy": 0.8941504178272981,
+              "on_off_captured": true,
+              "tp": 1048,
+              "fp": 97,
+              "fn": 55,
+              "tn": 236
+            },
+            "energy_washing_machine": {
+              "known_points": 0,
+              "active_points": 0,
+              "teca": null,
+              "r2": null,
+              "mae": null,
+              "mse": null,
+              "sae": null,
+              "on_off_precision": null,
+              "on_off_recall": null,
+              "on_off_f1": null,
+              "on_off_accuracy": null,
+              "on_off_captured": null,
+              "tp": 0,
+              "fp": 0,
+              "fn": 0,
+              "tn": 0
+            },
+            "energy_oven": {
+              "known_points": 1436,
+              "active_points": 304,
+              "teca": 50.0,
+              "r2": -8.222485522999841,
+              "mae": 217.2894744873047,
+              "mse": 52956.86328125,
+              "sae": 1.0,
+              "on_off_precision": null,
+              "on_off_recall": 0.0,
+              "on_off_f1": null,
+              "on_off_accuracy": 0.7883008356545961,
+              "on_off_captured": false,
+              "tp": 0,
+              "fp": 0,
+              "fn": 304,
+              "tn": 1132
+            }
+          }
+        },
+        "certh97dgl14": {
+          "house_summary": {
+            "on_off_f1_micro": 0.1761006289308176,
+            "on_off_f1_macro": 0.8854700854700854,
+            "on_off_precision_micro": 0.9333333333333333,
+            "on_off_recall_micro": 0.09722222222222222,
+            "mae_weighted_active": 187.6226169904073,
+            "sae_weighted_active": 0.9173270524340122
+          },
+          "overall": {
+            "energy_dish_washer": {
+              "known_points": 1213,
+              "active_points": 21,
+              "teca": 91.95414119160718,
+              "r2": 0.2714640264335303,
+              "mae": 268.8926086425781,
+              "mse": 104297.8828125,
+              "sae": 0.15899654202644553,
+              "on_off_precision": 0.875,
+              "on_off_recall": 1.0,
+              "on_off_f1": 0.9333333333333333,
+              "on_off_accuracy": 0.9975267930750206,
+              "on_off_captured": true,
+              "tp": 21,
+              "fp": 3,
+              "fn": 0,
+              "tn": 1189
+            },
+            "energy_fridge_freezer": {
+              "known_points": 811,
+              "active_points": 633,
+              "teca": 50.0,
+              "r2": -2.3672191788442687,
+              "mae": 108.92610931396484,
+              "mse": 16877.0625,
+              "sae": 1.0,
+              "on_off_precision": null,
+              "on_off_recall": 0.0,
+              "on_off_f1": null,
+              "on_off_accuracy": 0.21948212083847102,
+              "on_off_captured": false,
+              "tp": 0,
+              "fp": 0,
+              "fn": 633,
+              "tn": 178
+            },
+            "energy_washing_machine": {
+              "known_points": 0,
+              "active_points": 0,
+              "teca": null,
+              "r2": null,
+              "mae": null,
+              "mse": null,
+              "sae": null,
+              "on_off_precision": null,
+              "on_off_recall": null,
+              "on_off_f1": null,
+              "on_off_accuracy": null,
+              "on_off_captured": null,
+              "tp": 0,
+              "fp": 0,
+              "fn": 0,
+              "tn": 0
+            },
+            "energy_oven": {
+              "known_points": 1213,
+              "active_points": 66,
+              "teca": 80.34451988250508,
+              "r2": -2.1224517374025456,
+              "mae": 916.5350341796875,
+              "mse": 1458104.875,
+              "sae": 0.36570530863535633,
+              "on_off_precision": 0.9607843137254902,
+              "on_off_recall": 0.7424242424242424,
+              "on_off_f1": 0.8376068376068376,
+              "on_off_accuracy": 0.9843363561417972,
+              "on_off_captured": true,
+              "tp": 49,
+              "fp": 2,
+              "fn": 17,
+              "tn": 1145
+            },
+            "energy_ac": {
+              "known_points": 0,
+              "active_points": 0,
+              "teca": null,
+              "r2": null,
+              "mae": null,
+              "mse": null,
+              "sae": null,
+              "on_off_precision": null,
+              "on_off_recall": null,
+              "on_off_f1": null,
+              "on_off_accuracy": null,
+              "on_off_captured": null,
+              "tp": 0,
+              "fp": 0,
+              "fn": 0,
+              "tn": 0
+            },
+            "energy_ev": {
+              "known_points": 0,
+              "active_points": 0,
+              "teca": null,
+              "r2": null,
+              "mae": null,
+              "mse": null,
+              "sae": null,
+              "on_off_precision": null,
+              "on_off_recall": null,
+              "on_off_f1": null,
+              "on_off_accuracy": null,
+              "on_off_captured": null,
+              "tp": 0,
+              "fp": 0,
+              "fn": 0,
+              "tn": 0
+            },
+            "energy_ewh": {
+              "known_points": 0,
+              "active_points": 0,
+              "teca": null,
+              "r2": null,
+              "mae": null,
+              "mse": null,
+              "sae": null,
+              "on_off_precision": null,
+              "on_off_recall": null,
+              "on_off_f1": null,
+              "on_off_accuracy": null,
+              "on_off_captured": null,
+              "tp": 0,
+              "fp": 0,
+              "fn": 0,
+              "tn": 0
+            }
+          }
+        },
+        "certhckoz1h4": {
+          "house_summary": {
+            "on_off_f1_micro": null,
+            "on_off_f1_macro": null,
+            "on_off_precision_micro": null,
+            "on_off_recall_micro": 0.0,
+            "mae_weighted_active": 96.1713638305664,
+            "sae_weighted_active": 1.0
+          },
+          "overall": {
+            "energy_dish_washer": {
+              "known_points": 1440,
+              "active_points": 0,
+              "teca": null,
+              "r2": null,
+              "mae": null,
+              "mse": null,
+              "sae": null,
+              "on_off_precision": null,
+              "on_off_recall": null,
+              "on_off_f1": null,
+              "on_off_accuracy": 1.0,
+              "on_off_captured": false,
+              "tp": 0,
+              "fp": 0,
+              "fn": 0,
+              "tn": 1440
+            },
+            "energy_fridge_freezer": {
+              "known_points": 1439,
+              "active_points": 887,
+              "teca": 50.0,
+              "r2": -24.15479698424358,
+              "mae": 96.1713638305664,
+              "mse": 9631.8330078125,
+              "sae": 1.0,
+              "on_off_precision": null,
+              "on_off_recall": 0.0,
+              "on_off_f1": null,
+              "on_off_accuracy": 0.38359972202918696,
+              "on_off_captured": false,
+              "tp": 0,
+              "fp": 0,
+              "fn": 887,
+              "tn": 552
+            },
+            "energy_washing_machine": {
+              "known_points": 1440,
+              "active_points": 0,
+              "teca": null,
+              "r2": null,
+              "mae": null,
+              "mse": null,
+              "sae": null,
+              "on_off_precision": null,
+              "on_off_recall": null,
+              "on_off_f1": null,
+              "on_off_accuracy": 1.0,
+              "on_off_captured": false,
+              "tp": 0,
+              "fp": 0,
+              "fn": 0,
+              "tn": 1440
+            },
+            "energy_ac": {
+              "known_points": 205,
+              "active_points": 0,
+              "teca": null,
+              "r2": null,
+              "mae": null,
+              "mse": null,
+              "sae": null,
+              "on_off_precision": null,
+              "on_off_recall": null,
+              "on_off_f1": null,
+              "on_off_accuracy": 1.0,
+              "on_off_captured": false,
+              "tp": 0,
+              "fp": 0,
+              "fn": 0,
+              "tn": 205
+            }
+          }
+        },
+        "certhr5fwl7p": {
+          "house_summary": {
+            "on_off_f1_micro": 0.6771929824561403,
+            "on_off_f1_macro": 0.6171698872785829,
+            "on_off_precision_micro": 0.6917562724014337,
+            "on_off_recall_micro": 0.6632302405498282,
+            "mae_weighted_active": 249.67514709262915,
+            "sae_weighted_active": 0.2595611300219637
+          },
+          "overall": {
+            "energy_dish_washer": {
+              "known_points": 1434,
+              "active_points": 11,
+              "teca": 97.83770319420522,
+              "r2": 0.5595046201102907,
+              "mae": 99.85879516601562,
+              "mse": 22740.326171875,
+              "sae": 0.010513733390748032,
+              "on_off_precision": 0.8461538461538461,
+              "on_off_recall": 1.0,
+              "on_off_f1": 0.9166666666666666,
+              "on_off_accuracy": 0.99860529986053,
+              "on_off_captured": true,
+              "tp": 11,
+              "fp": 2,
+              "fn": 0,
+              "tn": 1421
+            },
+            "energy_dryer": {
+              "known_points": 1433,
+              "active_points": 146,
+              "teca": 90.97369022080576,
+              "r2": -0.259989411740553,
+              "mae": 77.74002075195312,
+              "mse": 10973.4501953125,
+              "sae": 0.12306215902945668,
+              "on_off_precision": 0.7185929648241206,
+              "on_off_recall": 0.9794520547945206,
+              "on_off_f1": 0.8289855072463769,
+              "on_off_accuracy": 0.958827634333566,
+              "on_off_captured": true,
+              "tp": 143,
+              "fp": 56,
+              "fn": 3,
+              "tn": 1231
+            },
+            "energy_washing_machine": {
+              "known_points": 1434,
+              "active_points": 82,
+              "teca": 83.85313040066066,
+              "r2": 0.8592145433841099,
+              "mae": 225.0322265625,
+              "mse": 101703.453125,
+              "sae": 0.13755715129506477,
+              "on_off_precision": 0.5714285714285714,
+              "on_off_recall": 0.3902439024390244,
+              "on_off_f1": 0.463768115942029,
+              "on_off_accuracy": 0.9483960948396095,
+              "on_off_captured": false,
+              "tp": 32,
+              "fp": 24,
+              "fn": 50,
+              "tn": 1328
+            },
+            "energy_oven": {
+              "known_points": 1434,
+              "active_points": 47,
+              "teca": 56.202263877795524,
+              "r2": -0.5309627988536234,
+              "mae": 816.68798828125,
+              "mse": 966425.0,
+              "sae": 0.8759548115871748,
+              "on_off_precision": 1.0,
+              "on_off_recall": 0.14893617021276595,
+              "on_off_f1": 0.25925925925925924,
+              "on_off_accuracy": 0.9721059972105998,
+              "on_off_captured": false,
+              "tp": 7,
+              "fp": 0,
+              "fn": 40,
+              "tn": 1387
+            },
+            "energy_ev": {
+              "known_points": 0,
+              "active_points": 0,
+              "teca": null,
+              "r2": null,
+              "mae": null,
+              "mse": null,
+              "sae": null,
+              "on_off_precision": null,
+              "on_off_recall": null,
+              "on_off_f1": null,
+              "on_off_accuracy": null,
+              "on_off_captured": null,
+              "tp": 0,
+              "fp": 0,
+              "fn": 0,
+              "tn": 0
+            },
+            "energy_induction_hob": {
+              "known_points": 1434,
+              "active_points": 5,
+              "teca": 50.0,
+              "r2": -136.09233679374705,
+              "mae": 674.0,
+              "mse": 457613.9375,
+              "sae": 1.0,
+              "on_off_precision": 0.0,
+              "on_off_recall": 0.0,
+              "on_off_f1": null,
+              "on_off_accuracy": 0.9937238493723849,
+              "on_off_captured": false,
+              "tp": 0,
+              "fp": 4,
+              "fn": 5,
+              "tn": 1425
+            }
+          }
+        },
+        "certhtwo505o": {
+          "house_summary": {
+            "on_off_f1_micro": null,
+            "on_off_f1_macro": null,
+            "on_off_precision_micro": null,
+            "on_off_recall_micro": 0.0,
+            "mae_weighted_active": 63.76945877075195,
+            "sae_weighted_active": 1.0
+          },
+          "overall": {
+            "energy_dish_washer": {
+              "known_points": 345,
+              "active_points": 0,
+              "teca": null,
+              "r2": null,
+              "mae": null,
+              "mse": null,
+              "sae": null,
+              "on_off_precision": null,
+              "on_off_recall": null,
+              "on_off_f1": null,
+              "on_off_accuracy": 1.0,
+              "on_off_captured": false,
+              "tp": 0,
+              "fp": 0,
+              "fn": 0,
+              "tn": 345
+            },
+            "energy_fridge_freezer": {
+              "known_points": 1439,
+              "active_points": 1015,
+              "teca": 50.0,
+              "r2": -34.51016307064563,
+              "mae": 63.76945877075195,
+              "mse": 4184.3798828125,
+              "sae": 1.0,
+              "on_off_precision": null,
+              "on_off_recall": 0.0,
+              "on_off_f1": null,
+              "on_off_accuracy": 0.2946490618485059,
+              "on_off_captured": false,
+              "tp": 0,
+              "fp": 0,
+              "fn": 1015,
+              "tn": 424
+            },
+            "energy_washing_machine": {
+              "known_points": 1422,
+              "active_points": 0,
+              "teca": null,
+              "r2": null,
+              "mae": null,
+              "mse": null,
+              "sae": null,
+              "on_off_precision": null,
+              "on_off_recall": null,
+              "on_off_f1": null,
+              "on_off_accuracy": 1.0,
+              "on_off_captured": false,
+              "tp": 0,
+              "fp": 0,
+              "fn": 0,
+              "tn": 1422
+            },
+            "energy_ewh": {
+              "known_points": 0,
+              "active_points": 0,
+              "teca": null,
+              "r2": null,
+              "mae": null,
+              "mse": null,
+              "sae": null,
+              "on_off_precision": null,
+              "on_off_recall": null,
+              "on_off_f1": null,
+              "on_off_accuracy": null,
+              "on_off_captured": null,
+              "tp": 0,
+              "fp": 0,
+              "fn": 0,
+              "tn": 0
+            }
+          }
+        }
+      }
+    },
+    "20240803": {
+      "houses": [
+        "certh15crq5w",
+        "certh7zcqwmc",
+        "certh97dgl14",
+        "certhckoz1h4",
+        "certhr5fwl7p",
+        "certhtwo505o"
+      ],
+      "plots": {
+        "certh15crq5w": {
+          "devices": [
+            "energy_dish_washer",
+            "energy_fridge_freezer",
+            "energy_induction_hob",
+            "energy_oven",
+            "energy_washing_machine"
+          ],
+          "plot_files": {
+            "energy_dish_washer": {
+              "device_label": "Dish Washer",
+              "relative_path": "assets/plots/20240803/certh15crq5w/energy_dish_washer_test_plot.html"
+            },
+            "energy_fridge_freezer": {
+              "device_label": "Fridge Freezer",
+              "relative_path": "assets/plots/20240803/certh15crq5w/energy_fridge_freezer_test_plot.html"
+            },
+            "energy_induction_hob": {
+              "device_label": "Induction Hob",
+              "relative_path": "assets/plots/20240803/certh15crq5w/energy_induction_hob_test_plot.html"
+            },
+            "energy_oven": {
+              "device_label": "Oven",
+              "relative_path": "assets/plots/20240803/certh15crq5w/energy_oven_test_plot.html"
+            },
+            "energy_washing_machine": {
+              "device_label": "Washing Machine",
+              "relative_path": "assets/plots/20240803/certh15crq5w/energy_washing_machine_test_plot.html"
+            }
+          }
+        },
+        "certh7zcqwmc": {
+          "devices": [
+            "energy_dish_washer",
+            "energy_fridge_freezer",
+            "energy_oven",
+            "energy_pv",
+            "energy_washing_machine"
+          ],
+          "plot_files": {
+            "energy_dish_washer": {
+              "device_label": "Dish Washer",
+              "relative_path": "assets/plots/20240803/certh7zcqwmc/energy_dish_washer_test_plot.html"
+            },
+            "energy_fridge_freezer": {
+              "device_label": "Fridge Freezer",
+              "relative_path": "assets/plots/20240803/certh7zcqwmc/energy_fridge_freezer_test_plot.html"
+            },
+            "energy_oven": {
+              "device_label": "Oven",
+              "relative_path": "assets/plots/20240803/certh7zcqwmc/energy_oven_test_plot.html"
+            },
+            "energy_pv": {
+              "device_label": "Pv",
+              "relative_path": "assets/plots/20240803/certh7zcqwmc/energy_pv_test_plot.html"
+            },
+            "energy_washing_machine": {
+              "device_label": "Washing Machine",
+              "relative_path": "assets/plots/20240803/certh7zcqwmc/energy_washing_machine_test_plot.html"
+            }
+          }
+        },
+        "certh97dgl14": {
+          "devices": [
+            "energy_ac",
+            "energy_dish_washer",
+            "energy_ev",
+            "energy_ewh",
+            "energy_fridge_freezer",
+            "energy_oven",
+            "energy_washing_machine"
+          ],
+          "plot_files": {
+            "energy_ac": {
+              "device_label": "Ac",
+              "relative_path": "assets/plots/20240803/certh97dgl14/energy_ac_test_plot.html"
+            },
+            "energy_dish_washer": {
+              "device_label": "Dish Washer",
+              "relative_path": "assets/plots/20240803/certh97dgl14/energy_dish_washer_test_plot.html"
+            },
+            "energy_ev": {
+              "device_label": "Ev",
+              "relative_path": "assets/plots/20240803/certh97dgl14/energy_ev_test_plot.html"
+            },
+            "energy_ewh": {
+              "device_label": "Ewh",
+              "relative_path": "assets/plots/20240803/certh97dgl14/energy_ewh_test_plot.html"
+            },
+            "energy_fridge_freezer": {
+              "device_label": "Fridge Freezer",
+              "relative_path": "assets/plots/20240803/certh97dgl14/energy_fridge_freezer_test_plot.html"
+            },
+            "energy_oven": {
+              "device_label": "Oven",
+              "relative_path": "assets/plots/20240803/certh97dgl14/energy_oven_test_plot.html"
+            },
+            "energy_washing_machine": {
+              "device_label": "Washing Machine",
+              "relative_path": "assets/plots/20240803/certh97dgl14/energy_washing_machine_test_plot.html"
+            }
+          }
+        },
+        "certhckoz1h4": {
+          "devices": [
+            "energy_ac",
+            "energy_dish_washer",
+            "energy_fridge_freezer",
+            "energy_washing_machine"
+          ],
+          "plot_files": {
+            "energy_ac": {
+              "device_label": "Ac",
+              "relative_path": "assets/plots/20240803/certhckoz1h4/energy_ac_test_plot.html"
+            },
+            "energy_dish_washer": {
+              "device_label": "Dish Washer",
+              "relative_path": "assets/plots/20240803/certhckoz1h4/energy_dish_washer_test_plot.html"
+            },
+            "energy_fridge_freezer": {
+              "device_label": "Fridge Freezer",
+              "relative_path": "assets/plots/20240803/certhckoz1h4/energy_fridge_freezer_test_plot.html"
+            },
+            "energy_washing_machine": {
+              "device_label": "Washing Machine",
+              "relative_path": "assets/plots/20240803/certhckoz1h4/energy_washing_machine_test_plot.html"
+            }
+          }
+        },
+        "certhr5fwl7p": {
+          "devices": [
+            "energy_dish_washer",
+            "energy_dryer",
+            "energy_ev",
+            "energy_induction_hob",
+            "energy_oven",
+            "energy_washing_machine"
+          ],
+          "plot_files": {
+            "energy_dish_washer": {
+              "device_label": "Dish Washer",
+              "relative_path": "assets/plots/20240803/certhr5fwl7p/energy_dish_washer_test_plot.html"
+            },
+            "energy_dryer": {
+              "device_label": "Dryer",
+              "relative_path": "assets/plots/20240803/certhr5fwl7p/energy_dryer_test_plot.html"
+            },
+            "energy_ev": {
+              "device_label": "Ev",
+              "relative_path": "assets/plots/20240803/certhr5fwl7p/energy_ev_test_plot.html"
+            },
+            "energy_induction_hob": {
+              "device_label": "Induction Hob",
+              "relative_path": "assets/plots/20240803/certhr5fwl7p/energy_induction_hob_test_plot.html"
+            },
+            "energy_oven": {
+              "device_label": "Oven",
+              "relative_path": "assets/plots/20240803/certhr5fwl7p/energy_oven_test_plot.html"
+            },
+            "energy_washing_machine": {
+              "device_label": "Washing Machine",
+              "relative_path": "assets/plots/20240803/certhr5fwl7p/energy_washing_machine_test_plot.html"
+            }
+          }
+        },
+        "certhtwo505o": {
+          "devices": [
+            "energy_dish_washer",
+            "energy_ewh",
+            "energy_fridge_freezer",
+            "energy_washing_machine"
+          ],
+          "plot_files": {
+            "energy_dish_washer": {
+              "device_label": "Dish Washer",
+              "relative_path": "assets/plots/20240803/certhtwo505o/energy_dish_washer_test_plot.html"
+            },
+            "energy_ewh": {
+              "device_label": "Ewh",
+              "relative_path": "assets/plots/20240803/certhtwo505o/energy_ewh_test_plot.html"
+            },
+            "energy_fridge_freezer": {
+              "device_label": "Fridge Freezer",
+              "relative_path": "assets/plots/20240803/certhtwo505o/energy_fridge_freezer_test_plot.html"
+            },
+            "energy_washing_machine": {
+              "device_label": "Washing Machine",
+              "relative_path": "assets/plots/20240803/certhtwo505o/energy_washing_machine_test_plot.html"
+            }
+          }
+        }
+      },
+      "metrics": {
+        "certh15crq5w": {
+          "house_summary": {
+            "on_off_f1_micro": 0.536,
+            "on_off_f1_macro": 0.6662489557226399,
+            "on_off_precision_micro": 0.7127659574468085,
+            "on_off_recall_micro": 0.42948717948717946,
+            "mae_weighted_active": 177.83414879823343,
+            "sae_weighted_active": 0.444756410495127
+          },
+          "overall": {
+            "energy_dish_washer": {
+              "known_points": 1340,
+              "active_points": 53,
+              "teca": 94.72286489151057,
+              "r2": 0.7218096088019907,
+              "mae": 187.62704467773438,
+              "mse": 48251.5078125,
+              "sae": 0.01839386873805986,
+              "on_off_precision": 0.726027397260274,
+              "on_off_recall": 1.0,
+              "on_off_f1": 0.8412698412698413,
+              "on_off_accuracy": 0.9850746268656716,
+              "on_off_captured": true,
+              "tp": 53,
+              "fp": 20,
+              "fn": 0,
+              "tn": 1267
+            },
+            "energy_fridge_freezer": {
+              "known_points": 381,
+              "active_points": 0,
+              "teca": null,
+              "r2": null,
+              "mae": null,
+              "mse": null,
+              "sae": null,
+              "on_off_precision": null,
+              "on_off_recall": null,
+              "on_off_f1": null,
+              "on_off_accuracy": 1.0,
+              "on_off_captured": false,
+              "tp": 0,
+              "fp": 0,
+              "fn": 0,
+              "tn": 381
+            },
+            "energy_washing_machine": {
+              "known_points": 1340,
+              "active_points": 36,
+              "teca": 87.4145484854006,
+              "r2": 0.9282568184696834,
+              "mae": 223.05615234375,
+              "mse": 63248.296875,
+              "sae": 0.03908680539229516,
+              "on_off_precision": 0.6666666666666666,
+              "on_off_recall": 0.3888888888888889,
+              "on_off_f1": 0.49122807017543857,
+              "on_off_accuracy": 0.9783582089552239,
+              "on_off_captured": false,
+              "tp": 14,
+              "fp": 7,
+              "fn": 22,
+              "tn": 1297
+            },
+            "energy_oven": {
+              "known_points": 381,
+              "active_points": 63,
+              "teca": 50.0,
+              "r2": -131.86599864468715,
+              "mae": 148.6090850830078,
+              "mse": 22252.134765625,
+              "sae": 1.0,
+              "on_off_precision": null,
+              "on_off_recall": 0.0,
+              "on_off_f1": null,
+              "on_off_accuracy": 0.8346456692913385,
+              "on_off_captured": false,
+              "tp": 0,
+              "fp": 0,
+              "fn": 63,
+              "tn": 318
+            },
+            "energy_induction_hob": {
+              "known_points": 381,
+              "active_points": 4,
+              "teca": 50.0,
+              "r2": -4414.234899328859,
+              "mae": 101.375,
+              "mse": 10279.21875,
+              "sae": 1.0,
+              "on_off_precision": null,
+              "on_off_recall": 0.0,
+              "on_off_f1": null,
+              "on_off_accuracy": 0.989501312335958,
+              "on_off_captured": false,
+              "tp": 0,
+              "fp": 0,
+              "fn": 4,
+              "tn": 377
+            }
+          }
+        },
+        "certh7zcqwmc": {
+          "house_summary": {
+            "on_off_f1_micro": 0.5498853211009174,
+            "on_off_f1_macro": 0.8853160713532661,
+            "on_off_precision_micro": 0.8896103896103896,
+            "on_off_recall_micro": 0.3979253112033195,
+            "mae_weighted_active": 120.45911590449543,
+            "sae_weighted_active": 0.590683221810876
+          },
+          "overall": {
+            "energy_dish_washer": {
+              "known_points": 312,
+              "active_points": 32,
+              "teca": 80.76656191558365,
+              "r2": 0.3620178849988549,
+              "mae": 507.798828125,
+              "mse": 401484.84375,
+              "sae": 0.2767431512321568,
+              "on_off_precision": 0.8108108108108109,
+              "on_off_recall": 0.9375,
+              "on_off_f1": 0.8695652173913043,
+              "on_off_accuracy": 0.9711538461538461,
+              "on_off_captured": true,
+              "tp": 30,
+              "fp": 7,
+              "fn": 2,
+              "tn": 273
+            },
+            "energy_fridge_freezer": {
+              "known_points": 1438,
+              "active_points": 1033,
+              "teca": 50.0,
+              "r2": -5.991741049124411,
+              "mae": 87.72361755371094,
+              "mse": 8979.7734375,
+              "sae": 1.0,
+              "on_off_precision": null,
+              "on_off_recall": 0.0,
+              "on_off_f1": null,
+              "on_off_accuracy": 0.2816411682892907,
+              "on_off_captured": false,
+              "tp": 0,
+              "fp": 0,
+              "fn": 1033,
+              "tn": 405
+            },
+            "energy_pv": {
+              "known_points": 1439,
+              "active_points": 1021,
+              "teca": 93.35397618170451,
+              "r2": 0.9650749778033828,
+              "mae": 128.27464294433594,
+              "mse": 25244.96484375,
+              "sae": 0.05650419561682875,
+              "on_off_precision": 0.8924111431316042,
+              "on_off_recall": 0.9098922624877571,
+              "on_off_f1": 0.9010669253152278,
+              "on_off_accuracy": 0.8582348853370396,
+              "on_off_captured": true,
+              "tp": 929,
+              "fp": 112,
+              "fn": 92,
+              "tn": 306
+            },
+            "energy_washing_machine": {
+              "known_points": 0,
+              "active_points": 0,
+              "teca": null,
+              "r2": null,
+              "mae": null,
+              "mse": null,
+              "sae": null,
+              "on_off_precision": null,
+              "on_off_recall": null,
+              "on_off_f1": null,
+              "on_off_accuracy": null,
+              "on_off_captured": null,
+              "tp": 0,
+              "fp": 0,
+              "fn": 0,
+              "tn": 0
+            },
+            "energy_oven": {
+              "known_points": 1439,
+              "active_points": 324,
+              "teca": 50.0,
+              "r2": -4.745343041106766,
+              "mae": 161.94444274902344,
+              "mse": 31752.681640625,
+              "sae": 1.0,
+              "on_off_precision": null,
+              "on_off_recall": 0.0,
+              "on_off_f1": null,
+              "on_off_accuracy": 0.7748436414176512,
+              "on_off_captured": false,
+              "tp": 0,
+              "fp": 0,
+              "fn": 324,
+              "tn": 1115
+            }
+          }
+        },
+        "certh97dgl14": {
+          "house_summary": {
+            "on_off_f1_micro": 0.150354609929078,
+            "on_off_f1_macro": 0.9271099744245525,
+            "on_off_precision_micro": 0.8983050847457628,
+            "on_off_recall_micro": 0.08204334365325078,
+            "mae_weighted_active": 138.70236422181497,
+            "sae_weighted_active": 0.9311233957478569
+          },
+          "overall": {
+            "energy_dish_washer": {
+              "known_points": 1178,
+              "active_points": 21,
+              "teca": 94.29167023642646,
+              "r2": 0.6472263539336937,
+              "mae": 197.3070526123047,
+              "mse": 62327.296875,
+              "sae": 0.01380000964373295,
+              "on_off_precision": 0.84,
+              "on_off_recall": 1.0,
+              "on_off_f1": 0.9130434782608696,
+              "on_off_accuracy": 0.9966044142614601,
+              "on_off_captured": true,
+              "tp": 21,
+              "fp": 4,
+              "fn": 0,
+              "tn": 1153
+            },
+            "energy_fridge_freezer": {
+              "known_points": 815,
+              "active_points": 591,
+              "teca": 50.0,
+              "r2": -6.169977088263441,
+              "mae": 103.27062225341797,
+              "mse": 12393.322265625,
+              "sae": 1.0,
+              "on_off_precision": null,
+              "on_off_recall": 0.0,
+              "on_off_f1": null,
+              "on_off_accuracy": 0.2748466257668712,
+              "on_off_captured": false,
+              "tp": 0,
+              "fp": 0,
+              "fn": 591,
+              "tn": 224
+            },
+            "energy_washing_machine": {
+              "known_points": 0,
+              "active_points": 0,
+              "teca": null,
+              "r2": null,
+              "mae": null,
+              "mse": null,
+              "sae": null,
+              "on_off_precision": null,
+              "on_off_recall": null,
+              "on_off_f1": null,
+              "on_off_accuracy": null,
+              "on_off_captured": null,
+              "tp": 0,
+              "fp": 0,
+              "fn": 0,
+              "tn": 0
+            },
+            "energy_oven": {
+              "known_points": 1178,
+              "active_points": 34,
+              "teca": 84.97660147071939,
+              "r2": -0.611974604987557,
+              "mae": 718.3923950195312,
+              "mse": 667553.5,
+              "sae": 0.3004680426646246,
+              "on_off_precision": 0.9411764705882353,
+              "on_off_recall": 0.9411764705882353,
+              "on_off_f1": 0.9411764705882353,
+              "on_off_accuracy": 0.9966044142614601,
+              "on_off_captured": true,
+              "tp": 32,
+              "fp": 2,
+              "fn": 2,
+              "tn": 1142
+            },
+            "energy_ac": {
+              "known_points": 0,
+              "active_points": 0,
+              "teca": null,
+              "r2": null,
+              "mae": null,
+              "mse": null,
+              "sae": null,
+              "on_off_precision": null,
+              "on_off_recall": null,
+              "on_off_f1": null,
+              "on_off_accuracy": null,
+              "on_off_captured": null,
+              "tp": 0,
+              "fp": 0,
+              "fn": 0,
+              "tn": 0
+            },
+            "energy_ev": {
+              "known_points": 0,
+              "active_points": 0,
+              "teca": null,
+              "r2": null,
+              "mae": null,
+              "mse": null,
+              "sae": null,
+              "on_off_precision": null,
+              "on_off_recall": null,
+              "on_off_f1": null,
+              "on_off_accuracy": null,
+              "on_off_captured": null,
+              "tp": 0,
+              "fp": 0,
+              "fn": 0,
+              "tn": 0
+            },
+            "energy_ewh": {
+              "known_points": 0,
+              "active_points": 0,
+              "teca": null,
+              "r2": null,
+              "mae": null,
+              "mse": null,
+              "sae": null,
+              "on_off_precision": null,
+              "on_off_recall": null,
+              "on_off_f1": null,
+              "on_off_accuracy": null,
+              "on_off_captured": null,
+              "tp": 0,
+              "fp": 0,
+              "fn": 0,
+              "tn": 0
+            }
+          }
+        },
+        "certhckoz1h4": {
+          "house_summary": {
+            "on_off_f1_micro": null,
+            "on_off_f1_macro": null,
+            "on_off_precision_micro": null,
+            "on_off_recall_micro": 0.0,
+            "mae_weighted_active": 97.48607635498047,
+            "sae_weighted_active": 1.0
+          },
+          "overall": {
+            "energy_dish_washer": {
+              "known_points": 1440,
+              "active_points": 0,
+              "teca": null,
+              "r2": null,
+              "mae": null,
+              "mse": null,
+              "sae": null,
+              "on_off_precision": null,
+              "on_off_recall": null,
+              "on_off_f1": null,
+              "on_off_accuracy": 1.0,
+              "on_off_captured": false,
+              "tp": 0,
+              "fp": 0,
+              "fn": 0,
+              "tn": 1440
+            },
+            "energy_fridge_freezer": {
+              "known_points": 1439,
+              "active_points": 880,
+              "teca": 50.0,
+              "r2": -11.289408837420686,
+              "mae": 97.48607635498047,
+              "mse": 10345.345703125,
+              "sae": 1.0,
+              "on_off_precision": null,
+              "on_off_recall": 0.0,
+              "on_off_f1": null,
+              "on_off_accuracy": 0.38846421125781794,
+              "on_off_captured": false,
+              "tp": 0,
+              "fp": 0,
+              "fn": 880,
+              "tn": 559
+            },
+            "energy_washing_machine": {
+              "known_points": 1440,
+              "active_points": 0,
+              "teca": null,
+              "r2": null,
+              "mae": null,
+              "mse": null,
+              "sae": null,
+              "on_off_precision": null,
+              "on_off_recall": null,
+              "on_off_f1": null,
+              "on_off_accuracy": 1.0,
+              "on_off_captured": false,
+              "tp": 0,
+              "fp": 0,
+              "fn": 0,
+              "tn": 1440
+            },
+            "energy_ac": {
+              "known_points": 181,
+              "active_points": 0,
+              "teca": null,
+              "r2": null,
+              "mae": null,
+              "mse": null,
+              "sae": null,
+              "on_off_precision": null,
+              "on_off_recall": null,
+              "on_off_f1": null,
+              "on_off_accuracy": 1.0,
+              "on_off_captured": false,
+              "tp": 0,
+              "fp": 0,
+              "fn": 0,
+              "tn": 181
+            }
+          }
+        },
+        "certhr5fwl7p": {
+          "house_summary": {
+            "on_off_f1_micro": 0.5330296127562641,
+            "on_off_f1_macro": 0.6647571309225445,
+            "on_off_precision_micro": 0.4517374517374517,
+            "on_off_recall_micro": 0.65,
+            "mae_weighted_active": 123.53111097547743,
+            "sae_weighted_active": 0.0767999285329645
+          },
+          "overall": {
+            "energy_dish_washer": {
+              "known_points": 1436,
+              "active_points": 10,
+              "teca": 96.7786348783053,
+              "r2": 0.7228962064224052,
+              "mae": 140.709228515625,
+              "mse": 42571.67578125,
+              "sae": 0.007759647578983516,
+              "on_off_precision": 0.9090909090909091,
+              "on_off_recall": 1.0,
+              "on_off_f1": 0.9523809523809523,
+              "on_off_accuracy": 0.9993036211699164,
+              "on_off_captured": true,
+              "tp": 10,
+              "fp": 1,
+              "fn": 0,
+              "tn": 1425
+            },
+            "energy_dryer": {
+              "known_points": 1435,
+              "active_points": 70,
+              "teca": 88.75433690652459,
+              "r2": 0.21151994982389388,
+              "mae": 99.2783203125,
+              "mse": 17349.599609375,
+              "sae": 0.0039364648567082544,
+              "on_off_precision": 0.3469387755102041,
+              "on_off_recall": 0.9714285714285714,
+              "on_off_f1": 0.5112781954887218,
+              "on_off_accuracy": 0.9094076655052264,
+              "on_off_captured": false,
+              "tp": 68,
+              "fp": 128,
+              "fn": 2,
+              "tn": 1237
+            },
+            "energy_washing_machine": {
+              "known_points": 1436,
+              "active_points": 100,
+              "teca": 81.4595295217278,
+              "r2": 0.909454807746995,
+              "mae": 138.79025268554688,
+              "mse": 36922.7734375,
+              "sae": 0.13470838120174197,
+              "on_off_precision": 0.8297872340425532,
+              "on_off_recall": 0.39,
+              "on_off_f1": 0.5306122448979592,
+              "on_off_accuracy": 0.9519498607242339,
+              "on_off_captured": false,
+              "tp": 39,
+              "fp": 8,
+              "fn": 61,
+              "tn": 1328
+            },
+            "energy_oven": {
+              "known_points": 1436,
+              "active_points": 0,
+              "teca": null,
+              "r2": null,
+              "mae": null,
+              "mse": null,
+              "sae": null,
+              "on_off_precision": null,
+              "on_off_recall": null,
+              "on_off_f1": null,
+              "on_off_accuracy": 1.0,
+              "on_off_captured": false,
+              "tp": 0,
+              "fp": 0,
+              "fn": 0,
+              "tn": 1436
+            },
+            "energy_ev": {
+              "known_points": 0,
+              "active_points": 0,
+              "teca": null,
+              "r2": null,
+              "mae": null,
+              "mse": null,
+              "sae": null,
+              "on_off_precision": null,
+              "on_off_recall": null,
+              "on_off_f1": null,
+              "on_off_accuracy": null,
+              "on_off_captured": null,
+              "tp": 0,
+              "fp": 0,
+              "fn": 0,
+              "tn": 0
+            },
+            "energy_induction_hob": {
+              "known_points": 1436,
+              "active_points": 0,
+              "teca": null,
+              "r2": null,
+              "mae": null,
+              "mse": null,
+              "sae": null,
+              "on_off_precision": 0.0,
+              "on_off_recall": null,
+              "on_off_f1": null,
+              "on_off_accuracy": 0.9965181058495822,
+              "on_off_captured": false,
+              "tp": 0,
+              "fp": 5,
+              "fn": 0,
+              "tn": 1431
+            }
+          }
+        },
+        "certhtwo505o": {
+          "house_summary": {
+            "on_off_f1_micro": null,
+            "on_off_f1_macro": null,
+            "on_off_precision_micro": null,
+            "on_off_recall_micro": 0.0,
+            "mae_weighted_active": 69.1866226196289,
+            "sae_weighted_active": 1.0
+          },
+          "overall": {
+            "energy_dish_washer": {
+              "known_points": 361,
+              "active_points": 0,
+              "teca": null,
+              "r2": null,
+              "mae": null,
+              "mse": null,
+              "sae": null,
+              "on_off_precision": null,
+              "on_off_recall": null,
+              "on_off_f1": null,
+              "on_off_accuracy": 1.0,
+              "on_off_captured": false,
+              "tp": 0,
+              "fp": 0,
+              "fn": 0,
+              "tn": 361
+            },
+            "energy_fridge_freezer": {
+              "known_points": 1439,
+              "active_points": 1069,
+              "teca": 50.0,
+              "r2": -4.568322045289356,
+              "mae": 69.1866226196289,
+              "mse": 5834.61083984375,
+              "sae": 1.0,
+              "on_off_precision": null,
+              "on_off_recall": 0.0,
+              "on_off_f1": null,
+              "on_off_accuracy": 0.2571230020847811,
+              "on_off_captured": false,
+              "tp": 0,
+              "fp": 0,
+              "fn": 1069,
+              "tn": 370
+            },
+            "energy_washing_machine": {
+              "known_points": 1421,
+              "active_points": 0,
+              "teca": null,
+              "r2": null,
+              "mae": null,
+              "mse": null,
+              "sae": null,
+              "on_off_precision": null,
+              "on_off_recall": null,
+              "on_off_f1": null,
+              "on_off_accuracy": 1.0,
+              "on_off_captured": false,
+              "tp": 0,
+              "fp": 0,
+              "fn": 0,
+              "tn": 1421
+            },
+            "energy_ewh": {
+              "known_points": 0,
+              "active_points": 0,
+              "teca": null,
+              "r2": null,
+              "mae": null,
+              "mse": null,
+              "sae": null,
+              "on_off_precision": null,
+              "on_off_recall": null,
+              "on_off_f1": null,
+              "on_off_accuracy": null,
+              "on_off_captured": null,
+              "tp": 0,
+              "fp": 0,
+              "fn": 0,
+              "tn": 0
+            }
+          }
+        }
+      }
+    },
+    "20240804": {
+      "houses": [
+        "certh15crq5w",
+        "certh7zcqwmc",
+        "certh97dgl14",
+        "certhckoz1h4",
+        "certhr5fwl7p",
+        "certhtwo505o"
+      ],
+      "plots": {
+        "certh15crq5w": {
+          "devices": [
+            "energy_dish_washer",
+            "energy_fridge_freezer",
+            "energy_induction_hob",
+            "energy_oven",
+            "energy_washing_machine"
+          ],
+          "plot_files": {
+            "energy_dish_washer": {
+              "device_label": "Dish Washer",
+              "relative_path": "assets/plots/20240804/certh15crq5w/energy_dish_washer_test_plot.html"
+            },
+            "energy_fridge_freezer": {
+              "device_label": "Fridge Freezer",
+              "relative_path": "assets/plots/20240804/certh15crq5w/energy_fridge_freezer_test_plot.html"
+            },
+            "energy_induction_hob": {
+              "device_label": "Induction Hob",
+              "relative_path": "assets/plots/20240804/certh15crq5w/energy_induction_hob_test_plot.html"
+            },
+            "energy_oven": {
+              "device_label": "Oven",
+              "relative_path": "assets/plots/20240804/certh15crq5w/energy_oven_test_plot.html"
+            },
+            "energy_washing_machine": {
+              "device_label": "Washing Machine",
+              "relative_path": "assets/plots/20240804/certh15crq5w/energy_washing_machine_test_plot.html"
+            }
+          }
+        },
+        "certh7zcqwmc": {
+          "devices": [
+            "energy_dish_washer",
+            "energy_fridge_freezer",
+            "energy_oven",
+            "energy_pv",
+            "energy_washing_machine"
+          ],
+          "plot_files": {
+            "energy_dish_washer": {
+              "device_label": "Dish Washer",
+              "relative_path": "assets/plots/20240804/certh7zcqwmc/energy_dish_washer_test_plot.html"
+            },
+            "energy_fridge_freezer": {
+              "device_label": "Fridge Freezer",
+              "relative_path": "assets/plots/20240804/certh7zcqwmc/energy_fridge_freezer_test_plot.html"
+            },
+            "energy_oven": {
+              "device_label": "Oven",
+              "relative_path": "assets/plots/20240804/certh7zcqwmc/energy_oven_test_plot.html"
+            },
+            "energy_pv": {
+              "device_label": "Pv",
+              "relative_path": "assets/plots/20240804/certh7zcqwmc/energy_pv_test_plot.html"
+            },
+            "energy_washing_machine": {
+              "device_label": "Washing Machine",
+              "relative_path": "assets/plots/20240804/certh7zcqwmc/energy_washing_machine_test_plot.html"
+            }
+          }
+        },
+        "certh97dgl14": {
+          "devices": [
+            "energy_ac",
+            "energy_dish_washer",
+            "energy_ev",
+            "energy_ewh",
+            "energy_fridge_freezer",
+            "energy_oven",
+            "energy_washing_machine"
+          ],
+          "plot_files": {
+            "energy_ac": {
+              "device_label": "Ac",
+              "relative_path": "assets/plots/20240804/certh97dgl14/energy_ac_test_plot.html"
+            },
+            "energy_dish_washer": {
+              "device_label": "Dish Washer",
+              "relative_path": "assets/plots/20240804/certh97dgl14/energy_dish_washer_test_plot.html"
+            },
+            "energy_ev": {
+              "device_label": "Ev",
+              "relative_path": "assets/plots/20240804/certh97dgl14/energy_ev_test_plot.html"
+            },
+            "energy_ewh": {
+              "device_label": "Ewh",
+              "relative_path": "assets/plots/20240804/certh97dgl14/energy_ewh_test_plot.html"
+            },
+            "energy_fridge_freezer": {
+              "device_label": "Fridge Freezer",
+              "relative_path": "assets/plots/20240804/certh97dgl14/energy_fridge_freezer_test_plot.html"
+            },
+            "energy_oven": {
+              "device_label": "Oven",
+              "relative_path": "assets/plots/20240804/certh97dgl14/energy_oven_test_plot.html"
+            },
+            "energy_washing_machine": {
+              "device_label": "Washing Machine",
+              "relative_path": "assets/plots/20240804/certh97dgl14/energy_washing_machine_test_plot.html"
+            }
+          }
+        },
+        "certhckoz1h4": {
+          "devices": [
+            "energy_ac",
+            "energy_dish_washer",
+            "energy_fridge_freezer",
+            "energy_washing_machine"
+          ],
+          "plot_files": {
+            "energy_ac": {
+              "device_label": "Ac",
+              "relative_path": "assets/plots/20240804/certhckoz1h4/energy_ac_test_plot.html"
+            },
+            "energy_dish_washer": {
+              "device_label": "Dish Washer",
+              "relative_path": "assets/plots/20240804/certhckoz1h4/energy_dish_washer_test_plot.html"
+            },
+            "energy_fridge_freezer": {
+              "device_label": "Fridge Freezer",
+              "relative_path": "assets/plots/20240804/certhckoz1h4/energy_fridge_freezer_test_plot.html"
+            },
+            "energy_washing_machine": {
+              "device_label": "Washing Machine",
+              "relative_path": "assets/plots/20240804/certhckoz1h4/energy_washing_machine_test_plot.html"
+            }
+          }
+        },
+        "certhr5fwl7p": {
+          "devices": [
+            "energy_dish_washer",
+            "energy_dryer",
+            "energy_ev",
+            "energy_induction_hob",
+            "energy_oven",
+            "energy_washing_machine"
+          ],
+          "plot_files": {
+            "energy_dish_washer": {
+              "device_label": "Dish Washer",
+              "relative_path": "assets/plots/20240804/certhr5fwl7p/energy_dish_washer_test_plot.html"
+            },
+            "energy_dryer": {
+              "device_label": "Dryer",
+              "relative_path": "assets/plots/20240804/certhr5fwl7p/energy_dryer_test_plot.html"
+            },
+            "energy_ev": {
+              "device_label": "Ev",
+              "relative_path": "assets/plots/20240804/certhr5fwl7p/energy_ev_test_plot.html"
+            },
+            "energy_induction_hob": {
+              "device_label": "Induction Hob",
+              "relative_path": "assets/plots/20240804/certhr5fwl7p/energy_induction_hob_test_plot.html"
+            },
+            "energy_oven": {
+              "device_label": "Oven",
+              "relative_path": "assets/plots/20240804/certhr5fwl7p/energy_oven_test_plot.html"
+            },
+            "energy_washing_machine": {
+              "device_label": "Washing Machine",
+              "relative_path": "assets/plots/20240804/certhr5fwl7p/energy_washing_machine_test_plot.html"
+            }
+          }
+        },
+        "certhtwo505o": {
+          "devices": [
+            "energy_dish_washer",
+            "energy_ewh",
+            "energy_fridge_freezer",
+            "energy_washing_machine"
+          ],
+          "plot_files": {
+            "energy_dish_washer": {
+              "device_label": "Dish Washer",
+              "relative_path": "assets/plots/20240804/certhtwo505o/energy_dish_washer_test_plot.html"
+            },
+            "energy_ewh": {
+              "device_label": "Ewh",
+              "relative_path": "assets/plots/20240804/certhtwo505o/energy_ewh_test_plot.html"
+            },
+            "energy_fridge_freezer": {
+              "device_label": "Fridge Freezer",
+              "relative_path": "assets/plots/20240804/certhtwo505o/energy_fridge_freezer_test_plot.html"
+            },
+            "energy_washing_machine": {
+              "device_label": "Washing Machine",
+              "relative_path": "assets/plots/20240804/certhtwo505o/energy_washing_machine_test_plot.html"
+            }
+          }
+        }
+      },
+      "metrics": {
+        "certh15crq5w": {
+          "house_summary": {
+            "on_off_f1_micro": 0.5057471264367815,
+            "on_off_f1_macro": 0.6426086956521739,
+            "on_off_precision_micro": 0.9166666666666666,
+            "on_off_recall_micro": 0.3492063492063492,
+            "mae_weighted_active": 298.3909556070964,
+            "sae_weighted_active": 0.3805754884266898
+          },
+          "overall": {
+            "energy_dish_washer": {
+              "known_points": 1402,
+              "active_points": 14,
+              "teca": 76.50590330388418,
+              "r2": -2.096694372798009,
+              "mae": 728.21630859375,
+              "mse": 923261.1875,
+              "sae": 0.46988202394052175,
+              "on_off_precision": 0.8181818181818182,
+              "on_off_recall": 0.6428571428571429,
+              "on_off_f1": 0.7200000000000001,
+              "on_off_accuracy": 0.9950071326676176,
+              "on_off_captured": true,
+              "tp": 9,
+              "fp": 2,
+              "fn": 5,
+              "tn": 1386
+            },
+            "energy_fridge_freezer": {
+              "known_points": 375,
+              "active_points": 0,
+              "teca": null,
+              "r2": null,
+              "mae": null,
+              "mse": null,
+              "sae": null,
+              "on_off_precision": null,
+              "on_off_recall": null,
+              "on_off_f1": null,
+              "on_off_accuracy": 1.0,
+              "on_off_captured": false,
+              "tp": 0,
+              "fp": 0,
+              "fn": 0,
+              "tn": 375
+            },
+            "energy_washing_machine": {
+              "known_points": 1402,
+              "active_points": 33,
+              "teca": 88.61155244733264,
+              "r2": 0.9475454218209187,
+              "mae": 185.2727813720703,
+              "mse": 45397.0625,
+              "sae": 0.04236083138527735,
+              "on_off_precision": 1.0,
+              "on_off_recall": 0.3939393939393939,
+              "on_off_f1": 0.5652173913043478,
+              "on_off_accuracy": 0.985734664764622,
+              "on_off_captured": false,
+              "tp": 13,
+              "fp": 0,
+              "fn": 20,
+              "tn": 1369
+            },
+            "energy_oven": {
+              "known_points": 376,
+              "active_points": 0,
+              "teca": null,
+              "r2": null,
+              "mae": null,
+              "mse": null,
+              "sae": null,
+              "on_off_precision": null,
+              "on_off_recall": null,
+              "on_off_f1": null,
+              "on_off_accuracy": 1.0,
+              "on_off_captured": false,
+              "tp": 0,
+              "fp": 0,
+              "fn": 0,
+              "tn": 376
+            },
+            "energy_induction_hob": {
+              "known_points": 376,
+              "active_points": 16,
+              "teca": 50.0,
+              "r2": -8.338623583134575,
+              "mae": 155.60000610351562,
+              "mse": 27114.87890625,
+              "sae": 1.0,
+              "on_off_precision": null,
+              "on_off_recall": 0.0,
+              "on_off_f1": null,
+              "on_off_accuracy": 0.9574468085106383,
+              "on_off_captured": false,
+              "tp": 0,
+              "fp": 0,
+              "fn": 16,
+              "tn": 360
+            }
+          }
+        },
+        "certh7zcqwmc": {
+          "house_summary": {
+            "on_off_f1_micro": 0.5154078549848943,
+            "on_off_f1_macro": 0.8752626093861142,
+            "on_off_precision_micro": 0.7622877569258266,
+            "on_off_recall_micro": 0.38931994523048835,
+            "mae_weighted_active": 115.7249235939294,
+            "sae_weighted_active": 0.5923340613562942
+          },
+          "overall": {
+            "energy_dish_washer": {
+              "known_points": 348,
+              "active_points": 32,
+              "teca": 74.90179681295534,
+              "r2": -0.7026663069520007,
+              "mae": 567.866455078125,
+              "mse": 448900.5625,
+              "sae": 0.19804284209799386,
+              "on_off_precision": 0.9655172413793104,
+              "on_off_recall": 0.875,
+              "on_off_f1": 0.9180327868852458,
+              "on_off_accuracy": 0.985632183908046,
+              "on_off_captured": true,
+              "tp": 28,
+              "fp": 1,
+              "fn": 4,
+              "tn": 315
+            },
+            "energy_fridge_freezer": {
+              "known_points": 1439,
+              "active_points": 1085,
+              "teca": 50.0,
+              "r2": -5.855953319540888,
+              "mae": 89.16681671142578,
+              "mse": 9308.4365234375,
+              "sae": 1.0,
+              "on_off_precision": null,
+              "on_off_recall": 0.0,
+              "on_off_f1": null,
+              "on_off_accuracy": 0.24600416956219598,
+              "on_off_captured": false,
+              "tp": 0,
+              "fp": 0,
+              "fn": 1085,
+              "tn": 354
+            },
+            "energy_pv": {
+              "known_points": 1440,
+              "active_points": 892,
+              "teca": 95.54633526251092,
+              "r2": 0.9813813906241451,
+              "mae": 103.28877258300781,
+              "mse": 15766.517578125,
+              "sae": 0.027428876103705008,
+              "on_off_precision": 0.7568807339449541,
+              "on_off_recall": 0.9248878923766816,
+              "on_off_f1": 0.8324924318869827,
+              "on_off_accuracy": 0.7694444444444445,
+              "on_off_captured": true,
+              "tp": 825,
+              "fp": 265,
+              "fn": 67,
+              "tn": 283
+            },
+            "energy_washing_machine": {
+              "known_points": 0,
+              "active_points": 0,
+              "teca": null,
+              "r2": null,
+              "mae": null,
+              "mse": null,
+              "sae": null,
+              "on_off_precision": null,
+              "on_off_recall": null,
+              "on_off_f1": null,
+              "on_off_accuracy": null,
+              "on_off_captured": null,
+              "tp": 0,
+              "fp": 0,
+              "fn": 0,
+              "tn": 0
+            },
+            "energy_oven": {
+              "known_points": 1440,
+              "active_points": 182,
+              "teca": 50.0,
+              "r2": -43.546049266567046,
+              "mae": 255.5054931640625,
+              "mse": 66782.234375,
+              "sae": 1.0,
+              "on_off_precision": null,
+              "on_off_recall": 0.0,
+              "on_off_f1": null,
+              "on_off_accuracy": 0.8736111111111111,
+              "on_off_captured": false,
+              "tp": 0,
+              "fp": 0,
+              "fn": 182,
+              "tn": 1258
+            }
+          }
+        },
+        "certh97dgl14": {
+          "house_summary": {
+            "on_off_f1_micro": null,
+            "on_off_f1_macro": null,
+            "on_off_precision_micro": null,
+            "on_off_recall_micro": 0.0,
+            "mae_weighted_active": 147.20775401356457,
+            "sae_weighted_active": 1.0
+          },
+          "overall": {
+            "energy_dish_washer": {
+              "known_points": 1127,
+              "active_points": 0,
+              "teca": null,
+              "r2": null,
+              "mae": null,
+              "mse": null,
+              "sae": null,
+              "on_off_precision": null,
+              "on_off_recall": null,
+              "on_off_f1": null,
+              "on_off_accuracy": 1.0,
+              "on_off_captured": false,
+              "tp": 0,
+              "fp": 0,
+              "fn": 0,
+              "tn": 1127
+            },
+            "energy_fridge_freezer": {
+              "known_points": 626,
+              "active_points": 449,
+              "teca": 50.0,
+              "r2": -0.2445129951685101,
+              "mae": 134.62255859375,
+              "mse": 92242.9296875,
+              "sae": 1.0,
+              "on_off_precision": null,
+              "on_off_recall": 0.0,
+              "on_off_f1": null,
+              "on_off_accuracy": 0.2827476038338658,
+              "on_off_captured": false,
+              "tp": 0,
+              "fp": 0,
+              "fn": 449,
+              "tn": 177
+            },
+            "energy_washing_machine": {
+              "known_points": 0,
+              "active_points": 0,
+              "teca": null,
+              "r2": null,
+              "mae": null,
+              "mse": null,
+              "sae": null,
+              "on_off_precision": null,
+              "on_off_recall": null,
+              "on_off_f1": null,
+              "on_off_accuracy": null,
+              "on_off_captured": null,
+              "tp": 0,
+              "fp": 0,
+              "fn": 0,
+              "tn": 0
+            },
+            "energy_oven": {
+              "known_points": 1127,
+              "active_points": 6,
+              "teca": 50.0,
+              "r2": -5.758771533037933,
+              "mae": 1088.9998779296875,
+              "mse": 1391853.625,
+              "sae": 1.0,
+              "on_off_precision": null,
+              "on_off_recall": 0.0,
+              "on_off_f1": null,
+              "on_off_accuracy": 0.9946761313220941,
+              "on_off_captured": false,
+              "tp": 0,
+              "fp": 0,
+              "fn": 6,
+              "tn": 1121
+            },
+            "energy_ac": {
+              "known_points": 0,
+              "active_points": 0,
+              "teca": null,
+              "r2": null,
+              "mae": null,
+              "mse": null,
+              "sae": null,
+              "on_off_precision": null,
+              "on_off_recall": null,
+              "on_off_f1": null,
+              "on_off_accuracy": null,
+              "on_off_captured": null,
+              "tp": 0,
+              "fp": 0,
+              "fn": 0,
+              "tn": 0
+            },
+            "energy_ev": {
+              "known_points": 0,
+              "active_points": 0,
+              "teca": null,
+              "r2": null,
+              "mae": null,
+              "mse": null,
+              "sae": null,
+              "on_off_precision": null,
+              "on_off_recall": null,
+              "on_off_f1": null,
+              "on_off_accuracy": null,
+              "on_off_captured": null,
+              "tp": 0,
+              "fp": 0,
+              "fn": 0,
+              "tn": 0
+            },
+            "energy_ewh": {
+              "known_points": 0,
+              "active_points": 0,
+              "teca": null,
+              "r2": null,
+              "mae": null,
+              "mse": null,
+              "sae": null,
+              "on_off_precision": null,
+              "on_off_recall": null,
+              "on_off_f1": null,
+              "on_off_accuracy": null,
+              "on_off_captured": null,
+              "tp": 0,
+              "fp": 0,
+              "fn": 0,
+              "tn": 0
+            }
+          }
+        },
+        "certhckoz1h4": {
+          "house_summary": {
+            "on_off_f1_micro": 0.43733333333333335,
+            "on_off_f1_macro": 0.6812369519832986,
+            "on_off_precision_micro": 1.0,
+            "on_off_recall_micro": 0.27986348122866894,
+            "mae_weighted_active": 286.77372370211066,
+            "sae_weighted_active": 0.7437491792116967
+          },
+          "overall": {
+            "energy_dish_washer": {
+              "known_points": 1440,
+              "active_points": 19,
+              "teca": 93.23279731862941,
+              "r2": 0.5366293183704423,
+              "mae": 272.0914001464844,
+              "mse": 101910.8671875,
+              "sae": 0.09344003210330654,
+              "on_off_precision": 1.0,
+              "on_off_recall": 1.0,
+              "on_off_f1": 1.0,
+              "on_off_accuracy": 1.0,
+              "on_off_captured": true,
+              "tp": 19,
+              "fp": 0,
+              "fn": 0,
+              "tn": 1421
+            },
+            "energy_fridge_freezer": {
+              "known_points": 1439,
+              "active_points": 1158,
+              "teca": 50.0,
+              "r2": -4.346032867262089,
+              "mae": 123.47517395019531,
+              "mse": 18754.169921875,
+              "sae": 1.0,
+              "on_off_precision": null,
+              "on_off_recall": 0.0,
+              "on_off_f1": null,
+              "on_off_accuracy": 0.19527449617790132,
+              "on_off_captured": false,
+              "tp": 0,
+              "fp": 0,
+              "fn": 1158,
+              "tn": 281
+            },
+            "energy_washing_machine": {
+              "known_points": 1440,
+              "active_points": 93,
+              "teca": 52.604196892845536,
+              "r2": -0.6003458580880146,
+              "mae": 219.53939819335938,
+              "mse": 105666.046875,
+              "sae": 0.9428609150842657,
+              "on_off_precision": 1.0,
+              "on_off_recall": 0.03225806451612903,
+              "on_off_f1": 0.0625,
+              "on_off_accuracy": 0.9375,
+              "on_off_captured": false,
+              "tp": 3,
+              "fp": 0,
+              "fn": 90,
+              "tn": 1347
+            },
+            "energy_ac": {
+              "known_points": 635,
+              "active_points": 488,
+              "teca": 80.24418511039154,
+              "r2": -0.06709479491074077,
+              "mae": 687.6578979492188,
+              "mse": 813330.0625,
+              "sae": 0.1230525232404989,
+              "on_off_precision": 1.0,
+              "on_off_recall": 0.9631147540983607,
+              "on_off_f1": 0.9812108559498957,
+              "on_off_accuracy": 0.9716535433070866,
+              "on_off_captured": true,
+              "tp": 470,
+              "fp": 0,
+              "fn": 18,
+              "tn": 147
+            }
+          }
+        },
+        "certhr5fwl7p": {
+          "house_summary": {
+            "on_off_f1_micro": 0.1388888888888889,
+            "on_off_f1_macro": 0.8333333333333333,
+            "on_off_precision_micro": 0.07692307692307693,
+            "on_off_recall_micro": 0.7142857142857143,
+            "mae_weighted_active": 565.4745483398438,
+            "sae_weighted_active": 0.8212287364658973
+          },
+          "overall": {
+            "energy_dish_washer": {
+              "known_points": 1407,
+              "active_points": 0,
+              "teca": null,
+              "r2": null,
+              "mae": null,
+              "mse": null,
+              "sae": null,
+              "on_off_precision": null,
+              "on_off_recall": null,
+              "on_off_f1": null,
+              "on_off_accuracy": 1.0,
+              "on_off_captured": false,
+              "tp": 0,
+              "fp": 0,
+              "fn": 0,
+              "tn": 1407
+            },
+            "energy_dryer": {
+              "known_points": 1406,
+              "active_points": 0,
+              "teca": null,
+              "r2": null,
+              "mae": null,
+              "mse": null,
+              "sae": null,
+              "on_off_precision": 0.0,
+              "on_off_recall": null,
+              "on_off_f1": null,
+              "on_off_accuracy": 0.957325746799431,
+              "on_off_captured": false,
+              "tp": 0,
+              "fp": 60,
+              "fn": 0,
+              "tn": 1346
+            },
+            "energy_washing_machine": {
+              "known_points": 1407,
+              "active_points": 0,
+              "teca": null,
+              "r2": null,
+              "mae": null,
+              "mse": null,
+              "sae": null,
+              "on_off_precision": null,
+              "on_off_recall": null,
+              "on_off_f1": null,
+              "on_off_accuracy": 1.0,
+              "on_off_captured": false,
+              "tp": 0,
+              "fp": 0,
+              "fn": 0,
+              "tn": 1407
+            },
+            "energy_oven": {
+              "known_points": 1407,
+              "active_points": 0,
+              "teca": null,
+              "r2": null,
+              "mae": null,
+              "mse": null,
+              "sae": null,
+              "on_off_precision": null,
+              "on_off_recall": null,
+              "on_off_f1": null,
+              "on_off_accuracy": 1.0,
+              "on_off_captured": false,
+              "tp": 0,
+              "fp": 0,
+              "fn": 0,
+              "tn": 1407
+            },
+            "energy_ev": {
+              "known_points": 0,
+              "active_points": 0,
+              "teca": null,
+              "r2": null,
+              "mae": null,
+              "mse": null,
+              "sae": null,
+              "on_off_precision": null,
+              "on_off_recall": null,
+              "on_off_f1": null,
+              "on_off_accuracy": null,
+              "on_off_captured": null,
+              "tp": 0,
+              "fp": 0,
+              "fn": 0,
+              "tn": 0
+            },
+            "energy_induction_hob": {
+              "known_points": 1407,
+              "active_points": 7,
+              "teca": 58.93856824186333,
+              "r2": -3.9370628726469477,
+              "mae": 565.4745483398438,
+              "mse": 359505.40625,
+              "sae": 0.8212287364658973,
+              "on_off_precision": 1.0,
+              "on_off_recall": 0.7142857142857143,
+              "on_off_f1": 0.8333333333333333,
+              "on_off_accuracy": 0.9985785358919688,
+              "on_off_captured": true,
+              "tp": 5,
+              "fp": 0,
+              "fn": 2,
+              "tn": 1400
+            }
+          }
+        },
+        "certhtwo505o": {
+          "house_summary": {
+            "on_off_f1_micro": null,
+            "on_off_f1_macro": null,
+            "on_off_precision_micro": null,
+            "on_off_recall_micro": 0.0,
+            "mae_weighted_active": 64.13793182373047,
+            "sae_weighted_active": 1.0
+          },
+          "overall": {
+            "energy_dish_washer": {
+              "known_points": 354,
+              "active_points": 0,
+              "teca": null,
+              "r2": null,
+              "mae": null,
+              "mse": null,
+              "sae": null,
+              "on_off_precision": null,
+              "on_off_recall": null,
+              "on_off_f1": null,
+              "on_off_accuracy": 1.0,
+              "on_off_captured": false,
+              "tp": 0,
+              "fp": 0,
+              "fn": 0,
+              "tn": 354
+            },
+            "energy_fridge_freezer": {
+              "known_points": 1439,
+              "active_points": 1015,
+              "teca": 50.0,
+              "r2": -30.134762410441365,
+              "mae": 64.13793182373047,
+              "mse": 4250.18310546875,
+              "sae": 1.0,
+              "on_off_precision": null,
+              "on_off_recall": 0.0,
+              "on_off_f1": null,
+              "on_off_accuracy": 0.2946490618485059,
+              "on_off_captured": false,
+              "tp": 0,
+              "fp": 0,
+              "fn": 1015,
+              "tn": 424
+            },
+            "energy_washing_machine": {
+              "known_points": 1418,
+              "active_points": 0,
+              "teca": null,
+              "r2": null,
+              "mae": null,
+              "mse": null,
+              "sae": null,
+              "on_off_precision": null,
+              "on_off_recall": null,
+              "on_off_f1": null,
+              "on_off_accuracy": 1.0,
+              "on_off_captured": false,
+              "tp": 0,
+              "fp": 0,
+              "fn": 0,
+              "tn": 1418
+            },
+            "energy_ewh": {
+              "known_points": 0,
+              "active_points": 0,
+              "teca": null,
+              "r2": null,
+              "mae": null,
+              "mse": null,
+              "sae": null,
+              "on_off_precision": null,
+              "on_off_recall": null,
+              "on_off_f1": null,
+              "on_off_accuracy": null,
+              "on_off_captured": null,
+              "tp": 0,
+              "fp": 0,
+              "fn": 0,
+              "tn": 0
+            }
+          }
+        }
+      }
+    }
+  },
+  "featured_examples": [
+    {
+      "date": "20240804",
+      "house": "certhckoz1h4",
+      "device": "energy_dish_washer",
+      "device_label": "Dish Washer",
+      "on_off_f1": 1.0,
+      "on_off_precision": 1.0,
+      "on_off_recall": 1.0
+    },
+    {
+      "date": "20240804",
+      "house": "certhckoz1h4",
+      "device": "energy_ac",
+      "device_label": "Ac",
+      "on_off_f1": 0.9812108559498957,
+      "on_off_precision": 1.0,
+      "on_off_recall": 0.9631147540983607
+    },
+    {
+      "date": "20240803",
+      "house": "certhr5fwl7p",
+      "device": "energy_dish_washer",
+      "device_label": "Dish Washer",
+      "on_off_f1": 0.9523809523809523,
+      "on_off_precision": 0.9090909090909091,
+      "on_off_recall": 1.0
+    },
+    {
+      "date": "20240803",
+      "house": "certh97dgl14",
+      "device": "energy_oven",
+      "device_label": "Oven",
+      "on_off_f1": 0.9411764705882353,
+      "on_off_precision": 0.9411764705882353,
+      "on_off_recall": 0.9411764705882353
+    },
+    {
+      "date": "20240802",
+      "house": "certh97dgl14",
+      "device": "energy_dish_washer",
+      "device_label": "Dish Washer",
+      "on_off_f1": 0.9333333333333333,
+      "on_off_precision": 0.875,
+      "on_off_recall": 1.0
+    },
+    {
+      "date": "20240802",
+      "house": "certh7zcqwmc",
+      "device": "energy_pv",
+      "device_label": "Pv",
+      "on_off_f1": 0.9323843416370107,
+      "on_off_precision": 0.9152838427947598,
+      "on_off_recall": 0.9501359927470535
+    }
+  ],
+  "model_label": "NILMFormer SEL Full Rebuilt",
+  "house_count": 6,
+  "default_selection": {
+    "date": "20240802",
+    "house": "certh15crq5w",
+    "device": "energy_dish_washer"
+  }
+}
