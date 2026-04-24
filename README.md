@@ -5,13 +5,22 @@ Inference and training code for the REEFLEX NILM pipeline.
 This repository is now organized around a small number of official entrypoints:
 
 - `configs/active/train_mains5_all10.yaml`: main training config
+- `configs/active/train_sel_full_rebuilt_60_20_20.yaml`: full SEL-corpus rebuild training config
 - `configs/active/release_eval.yaml`: main inference / evaluation config
+- `configs/active/release_eval_sel_full_rebuilt.yaml`: inference config for the rebuilt model bundle
 - `scripts/fetch_training_corpus.py`: fetch all participant/day data required by the training split CSVs
+- `scripts/fetch_sel_full_corpus.py`: fetch all known SEL participants over a date range
+- `scripts/build_splits_from_daily_corpus.py`: rebuild train/val/test splits from fetched daily SEL data
+- `scripts/run_full_rebuild_pipeline.sh`: full fetch -> split build -> train -> bundle -> evaluate wrapper
 - `scripts/fetch_sel_daily.py`: fetch one day from SEL API
 - `scripts/run_daily_eval.py`: generate per-house daily configs and run inference
 - `scripts/run_daily_pipeline.py`: one-command fetch + inference wrapper for daily SEL runs
+- `scripts/run_daily_production.sh`: non-interactive wrapper for once-per-day production runs
+- `scripts/sel_doctor.py`: preflight checker for env, configs, model bundle, splits, and SEL API availability
+- `scripts/build_portfolio_dashboard.py`: build a static multi-day demo site from generated Plotly outputs
 
 Old experimental configs are still available under `configs/archive/`, but they are not the recommended starting point.
+Archived one-off utilities now live under `scripts/archive/` and are not part of the supported pipeline.
 
 ## Quick start
 
@@ -28,7 +37,53 @@ If you use CUDA, install the matching PyTorch build instead of the CPU wheel.
 
 ## 1) Fetch all data required for training
 
-If you want to rebuild the training corpus from SEL API, use:
+There are two supported fetch modes.
+
+### Full SEL rebuild
+
+Use this when you want to rescan all known SEL participants with the current parser and rebuild the model from scratch:
+
+```bash
+cp .env.example .env
+# edit .env with SEL_API_EMAIL and SEL_API_PASSWORD
+
+START_DATE=2024-02-01 \
+END_DATE=2026-04-15 \
+CUDA_VISIBLE_DEVICES=1 \
+RUN_DAILY_TEST=1 \
+DAILY_TEST_DATE=2026-04-15 \
+bash scripts/run_full_rebuild_pipeline.sh
+```
+
+The wrapper performs:
+
+1. full SEL fetch into `DATA/daily_sel_api_full_corpus/`
+2. split rebuild into `DATA/splits_sel_full_rebuilt_60_20_20/`
+3. GPU Docker build if needed
+4. training with `configs/active/train_sel_full_rebuilt_60_20_20.yaml`
+5. model bundle copy into `models/nilmformer_sel_full_rebuilt_60_20_20/`
+6. evaluation with `configs/active/release_eval_sel_full_rebuilt.yaml`
+7. optional daily inference test when `RUN_DAILY_TEST=1`
+
+For a detached long run:
+
+```bash
+mkdir -p logs
+screen -dmS nilm_full_rebuild bash -lc '
+  cd /path/to/REEFLEX-NILM &&
+  START_DATE=2024-02-01 \
+  END_DATE=2026-04-15 \
+  CUDA_VISIBLE_DEVICES=1 \
+  RUN_DAILY_TEST=1 \
+  DAILY_TEST_DATE=2026-04-15 \
+  bash scripts/run_full_rebuild_pipeline.sh >> logs/full_rebuild.log 2>&1
+'
+tail -f logs/full_rebuild.log
+```
+
+### Fetch only the currently configured split days
+
+Use this when you only want to refetch the participant/date pairs already present in an existing split directory:
 
 ```bash
 export SEL_API_EMAIL="you@example.com"
@@ -111,6 +166,14 @@ python scripts/run_daily_pipeline.py \
   --participants certhr5fwl7p,certhckoz1h4
 ```
 
+Preflight / doctor check:
+
+```bash
+python scripts/sel_doctor.py \
+  --date 2026-03-15 \
+  --participant certhr5fwl7p
+```
+
 This wrapper does:
 
 1. fetch one day from SEL API
@@ -160,6 +223,79 @@ Daily outputs are written to:
 - `results/plots_*/YYYYMMDD/<participant>/`: Plotly HTML plots per house
 
 If the daily CSV has no appliance labels, metrics are not meaningful. In that case, inspect the predictions CSVs and the HTML plots.
+
+`scripts/run_daily_production.sh` now runs `scripts/sel_doctor.py` automatically by default before the daily pipeline. Set `DAILY_RUN_DOCTOR=0` if you want to skip that preflight.
+
+## 5) Static Portfolio Demo
+
+You can build a shareable static dashboard from already-generated daily evaluation plots.
+
+Recommended demo window for the current full SEL corpus:
+
+- `2024-08-02`
+- `2024-08-03`
+- `2024-08-04`
+
+Generate the daily per-house plots first:
+
+```bash
+python scripts/run_daily_eval.py \
+  --base-config configs/active/release_eval_sel_full_rebuilt.yaml \
+  --date 2024-08-02 \
+  --split-data-csv DATA/daily_sel_api_full_corpus/20240802/daily_20240802_merged.csv \
+  --per-house \
+  --run \
+  --keep-going
+```
+
+Repeat for the other demo dates, then build the static site:
+
+```bash
+python scripts/build_portfolio_dashboard.py \
+  --dates 20240802,20240803,20240804 \
+  --clean
+```
+
+The generated site is written to:
+
+- `demo/portfolio_dashboard/`
+
+For a quick local preview:
+
+```bash
+cd demo/portfolio_dashboard
+python -m http.server 8000
+```
+
+Then open:
+
+- `http://localhost:8000`
+
+### Containerized daily production
+
+If you want the pipeline to run once per day on another machine, the supported path is:
+
+1. put credentials and participant ids in `.env`
+2. run the one-shot Docker service `reeflex-nilm-daily`
+3. let the host scheduler (`systemd timer` or `cron`) invoke that service every day
+
+Manual dry-run:
+
+```bash
+cp .env.example .env
+# edit .env first
+
+docker compose build reeflex-nilm-daily
+DAILY_PRINT_ONLY=1 docker compose run --rm reeflex-nilm-daily 2026-03-15
+```
+
+Real run:
+
+```bash
+docker compose run --rm reeflex-nilm-daily
+```
+
+By default this daily service fetches the previous day and writes outputs back to the mounted repo. See `DOCKER.md` and `deploy/systemd/` for the production deploy files.
 
 ## 5) Output semantics and current resolution
 
@@ -220,4 +356,10 @@ This means the pipeline is operational, but house-specific postprocessing is sti
 
 ## Docker
 
-Docker support is available, but it is optional. See `DOCKER.md` if you want a containerized run.
+Docker support is available, but it is optional. `DOCKER.md` now covers:
+
+- CPU/GPU one-shot runs
+- the daily production container service
+- `.env` configuration
+- `systemd timer` deployment for once-per-day execution
+- `cron` as a fallback scheduler

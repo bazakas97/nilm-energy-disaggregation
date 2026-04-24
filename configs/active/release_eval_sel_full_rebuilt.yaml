@@ -1,0 +1,268 @@
+action: evaluate
+
+paths:
+  train_data: ../../DATA/splits_sel_full_rebuilt_60_20_20/train.csv
+  val_data: ../../DATA/splits_sel_full_rebuilt_60_20_20/val.csv
+  test_data: ../../DATA/splits_sel_full_rebuilt_60_20_20/test.csv
+
+  # Model bundle is tracked under `models/` so the repo can run inference without
+  # depending on local `results/models` artifacts.
+  model_save: ../../models/nilmformer_sel_full_rebuilt_60_20_20/best_model.pth
+  model_meta: ../../models/nilmformer_sel_full_rebuilt_60_20_20/meta.json
+  input_scaler: ../../models/nilmformer_sel_full_rebuilt_60_20_20/input_scaler.save
+  output_scaler: ../../models/nilmformer_sel_full_rebuilt_60_20_20/output_scaler.save
+
+  predictions_csv: ../../results/csv/nilmformer_sel_full_rebuilt_60_20_20_test_predictions.csv
+  metrics_json: ../../results/csv/nilmformer_sel_full_rebuilt_60_20_20_test_predictions_metrics.json
+  plots_dir: ../../results/plots_nilmformer_sel_full_rebuilt_60_20_20
+  train_plot: ../../results/plots/nilmformer_sel_full_rebuilt_60_20_20_training_validation_loss.png
+
+data:
+  participants: []
+  participants_train: []
+  participants_val: []
+  participants_test: []
+  timestamp_col: timestamp
+  drop_unlabeled_centers: true
+  target_mode: sequence
+
+  max_rows_strategy: balanced_participants
+  max_rows_train: null
+  max_rows_val: null
+  max_rows_test: null
+
+  preprocessing:
+    correct_mains_vs_devices: false
+    gaussian_sigma: 0
+    align_mains_with_devices: false
+
+    label_gap_fill:
+      enabled: true
+      log: true
+      devices:
+        energy_ev:
+          enabled: true
+          on_power_min: 5000
+          off_power_max: 50
+          max_gap_points: 5
+          fill_method: min_edge
+          require_mains_support: true
+          mains_min: 4000
+          mains_edge_tolerance: 800
+
+    unattributed_mains_mask:
+      enabled: true
+      log: true
+      drop_rows: true
+      mains_min: 1000
+      target_sum_max: 5.0
+
+    participant_data_filter:
+      enabled: true
+      log: true
+      min_rows: 3000
+      min_known_points: 3000
+      min_active_points: 100
+      min_devices_with_activity: 1
+      min_active_points_per_device: 20
+      min_mains_nonzero_ratio: 0.03
+
+model:
+  type: nilmformer_paper
+  input_dim: 1
+  predict_onoff: true
+
+  c_embedding: 8
+  d_model: 96
+  n_encoder_layers: 3
+  nhead: 8
+  pffn_ratio: 4
+  dropout: 0.2
+
+  kernel_size: 3
+  kernel_size_head: 3
+  dilations: [1, 2, 4, 8]
+  conv_bias: true
+
+train:
+  window_size: 128
+  stride: 6
+  val_stride: 6
+  batch_size: 128
+
+  epochs: 20
+  learning_rate: 0.0002
+  weight_decay: 0.0001
+  patience: 6
+
+  lr_reduce_factor: 0.5
+  lr_patience: 3
+
+  runtime_device: auto
+  num_workers: 2
+  force_retrain: true
+
+  balance_active_windows: true
+  per_device_sampling_boost: true
+  sampling_boost_power: 0.45
+  max_sampling_device_boost: 8.0
+  active_window_boost: 5.0
+
+  active_loss_weight: 2.0
+  use_device_frequency_weighting: true
+  min_device_weight: 0.5
+  max_device_weight: 4.0
+
+  onoff_aux_loss:
+    enabled: true
+    weight: 0.30
+    temperature: 30.0
+    warmup_epochs: 2
+    ramp_epochs: 3
+    regression_on_only: false
+    use_pos_weight: true
+    pos_weight_power: 0.30
+    max_pos_weight: 12.0
+
+  augmentation:
+    enabled: true
+    active_only: true
+    time_shift:
+      enabled: true
+      probability: 0.40
+      max_steps: 3
+    jitter:
+      enabled: true
+      probability: 0.20
+      std: 0.01
+
+  validation_postprocessing:
+    enabled: true
+    clip_negative: true
+    default_to_active_threshold: true
+    default_min_duration: 2
+
+    onoff_probability_gating:
+      enabled: true
+      on_threshold: 0.60
+      off_threshold: 0.35
+      min_on_duration: 2
+      device_params:
+        energy_dish_washer: &onoff_dw {on_threshold: 0.62, off_threshold: 0.38, min_on_duration: 3}
+        energy_dryer: &onoff_dryer {on_threshold: 0.68, off_threshold: 0.45, min_on_duration: 4}
+        energy_fridge_freezer: &onoff_fridge {on_threshold: 0.55, off_threshold: 0.35, min_on_duration: 2}
+        energy_pv: &onoff_pv {on_threshold: 0.60, off_threshold: 0.40, min_on_duration: 2}
+        energy_washing_machine: &onoff_wm {on_threshold: 0.62, off_threshold: 0.38, min_on_duration: 3}
+        energy_oven: &onoff_oven {on_threshold: 0.60, off_threshold: 0.35, min_on_duration: 3}
+        energy_ac: &onoff_ac {on_threshold: 0.65, off_threshold: 0.42, min_on_duration: 3}
+        energy_ev: &onoff_ev {on_threshold: 0.72, off_threshold: 0.50, min_on_duration: 4}
+        energy_induction_hob: &onoff_hob {on_threshold: 0.60, off_threshold: 0.35, min_on_duration: 2}
+        energy_ewh: &onoff_ewh {on_threshold: 0.62, off_threshold: 0.40, min_on_duration: 3}
+
+    device_postprocessing_params: &post_params
+      energy_dish_washer: {min_duration: 3, min_energy_value: 100}
+      energy_dryer: {min_duration: 3, min_energy_value: 100, cycle_peak_min: 350}
+      energy_fridge_freezer: {min_duration: 0, min_energy_value: 50}
+      energy_pv: {min_duration: 3, min_energy_value: 100}
+      energy_washing_machine: {min_duration: 3, min_energy_value: 100}
+      energy_oven: {min_duration: 3, min_energy_value: 100}
+      energy_ac: {min_duration: 3, min_energy_value: 300}
+      energy_ev: {min_duration: 4, min_energy_value: 500, cycle_peak_min: 1200}
+      energy_induction_hob: {min_duration: 3, min_energy_value: 100}
+      energy_ewh: {min_duration: 3, min_energy_value: 100}
+
+  max_train_batches: null
+  max_val_batches: null
+  validation_report_per_participant: true
+
+  participant_gating:
+    enabled: true
+    min_active_points: 1
+    min_known_points: 1
+    unknown_participant_behavior: block
+
+  device_list: &all_devices
+    - energy_dish_washer
+    - energy_dryer
+    - energy_fridge_freezer
+    - energy_pv
+    - energy_washing_machine
+    - energy_oven
+    - energy_ac
+    - energy_ev
+    - energy_induction_hob
+    - energy_ewh
+
+  active_thresholds: &active_thresholds
+    energy_dish_washer: {min_duration: 3, min_energy_value: 100}
+    energy_dryer: {min_duration: 3, min_energy_value: 100}
+    energy_fridge_freezer: {min_duration: 0, min_energy_value: 50}
+    energy_pv: {min_duration: 3, min_energy_value: 100}
+    energy_washing_machine: {min_duration: 3, min_energy_value: 100}
+    energy_oven: {min_duration: 3, min_energy_value: 100}
+    energy_ac: {min_duration: 3, min_energy_value: 300}
+    energy_ev: {min_duration: 3, min_energy_value: 500}
+    energy_induction_hob: {min_duration: 3, min_energy_value: 100}
+    energy_ewh: {min_duration: 3, min_energy_value: 100}
+
+evaluate:
+  split_name: test
+  window_size: 128
+  batch_size: 256
+  stride: 6
+  dense_sequence_reconstruction: true
+  runtime_device: auto
+  num_workers: 2
+  use_saved_metadata: true
+  max_test_batches: null
+
+  plot_head: 12000
+  plot_include_mains: true
+  mask_unknown_for_plots: true
+  mask_unknown_predictions_for_plots: false
+
+  postprocess_predictions: true
+  postprocess_ground_truth: false
+
+  report_per_participant: true
+  per_participant_plots: true
+  per_participant_plot_head: 12000
+  per_participant_plots_dirname: participants
+  sort_participant_plots_by_time: true
+  min_known_points_per_participant_plot: 1
+
+  on_off_capture:
+    enabled: true
+    precision_min: 0.5
+    recall_min: 0.5
+    f1_min: 0.5
+    accuracy_min: null
+
+  onoff_probability_gating:
+    enabled: true
+    on_threshold: 0.60
+    off_threshold: 0.35
+    min_on_duration: 2
+    device_params:
+      energy_dish_washer: *onoff_dw
+      energy_dryer: *onoff_dryer
+      energy_fridge_freezer: *onoff_fridge
+      energy_pv: *onoff_pv
+      energy_washing_machine: *onoff_wm
+      energy_oven: *onoff_oven
+      energy_ac: *onoff_ac
+      energy_ev: *onoff_ev
+      energy_induction_hob: *onoff_hob
+      energy_ewh: *onoff_ewh
+
+  participant_gating:
+    enabled: true
+    unknown_participant_behavior: block
+
+  device_list: *all_devices
+  active_thresholds: *active_thresholds
+  device_postprocessing_params: *post_params
+
+extractsynthetic:
+  base_path: ../../DATA/SyntheticData/data
+  days: 180

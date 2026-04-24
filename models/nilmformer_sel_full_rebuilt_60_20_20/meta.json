@@ -1,0 +1,127 @@
+{
+  "window_size": 128,
+  "device_list": [
+    "energy_dish_washer",
+    "energy_dryer",
+    "energy_fridge_freezer",
+    "energy_pv",
+    "energy_washing_machine",
+    "energy_oven",
+    "energy_ac",
+    "energy_ev",
+    "energy_induction_hob",
+    "energy_ewh"
+  ],
+  "model": {
+    "type": "nilmformer_paper",
+    "input_dim": 1,
+    "predict_onoff": true,
+    "c_embedding": 8,
+    "d_model": 96,
+    "n_encoder_layers": 3,
+    "nhead": 8,
+    "pffn_ratio": 4,
+    "dropout": 0.2,
+    "kernel_size": 3,
+    "kernel_size_head": 3,
+    "dilations": [
+      1,
+      2,
+      4,
+      8
+    ],
+    "conv_bias": true
+  },
+  "active_thresholds": {
+    "energy_dish_washer": 100.0,
+    "energy_dryer": 100.0,
+    "energy_fridge_freezer": 50.0,
+    "energy_pv": 100.0,
+    "energy_washing_machine": 100.0,
+    "energy_oven": 100.0,
+    "energy_ac": 300.0,
+    "energy_ev": 500.0,
+    "energy_induction_hob": 100.0,
+    "energy_ewh": 100.0
+  },
+  "participant_device_availability": {
+    "certh15crq5w": {
+      "energy_dish_washer": true,
+      "energy_dryer": false,
+      "energy_fridge_freezer": true,
+      "energy_pv": false,
+      "energy_washing_machine": true,
+      "energy_oven": true,
+      "energy_ac": false,
+      "energy_ev": false,
+      "energy_induction_hob": true,
+      "energy_ewh": false
+    },
+    "certh7zcqwmc": {
+      "energy_dish_washer": true,
+      "energy_dryer": false,
+      "energy_fridge_freezer": true,
+      "energy_pv": true,
+      "energy_washing_machine": false,
+      "energy_oven": true,
+      "energy_ac": false,
+      "energy_ev": false,
+      "energy_induction_hob": false,
+      "energy_ewh": false
+    },
+    "certh97dgl14": {
+      "energy_dish_washer": true,
+      "energy_dryer": false,
+      "energy_fridge_freezer": true,
+      "energy_pv": false,
+      "energy_washing_machine": false,
+      "energy_oven": true,
+      "energy_ac": false,
+      "energy_ev": true,
+      "energy_induction_hob": false,
+      "energy_ewh": false
+    },
+    "certhckoz1h4": {
+      "energy_dish_washer": true,
+      "energy_dryer": false,
+      "energy_fridge_freezer": true,
+      "energy_pv": false,
+      "energy_washing_machine": true,
+      "energy_oven": false,
+      "energy_ac": true,
+      "energy_ev": false,
+      "energy_induction_hob": false,
+      "energy_ewh": false
+    },
+    "certhr5fwl7p": {
+      "energy_dish_washer": true,
+      "energy_dryer": true,
+      "energy_fridge_freezer": false,
+      "energy_pv": false,
+      "energy_washing_machine": true,
+      "energy_oven": true,
+      "energy_ac": false,
+      "energy_ev": true,
+      "energy_induction_hob": true,
+      "energy_ewh": false
+    },
+    "certhtwo505o": {
+      "energy_dish_washer": true,
+      "energy_dryer": false,
+      "energy_fridge_freezer": true,
+      "energy_pv": false,
+      "energy_washing_machine": true,
+      "energy_oven": false,
+      "energy_ac": false,
+      "energy_ev": false,
+      "energy_induction_hob": false,
+      "energy_ewh": false
+    }
+  },
+  "participant_gating": {
+    "enabled": true,
+    "unknown_participant_behavior": "block",
+    "min_active_points": 1,
+    "min_known_points": 1
+  }
+}

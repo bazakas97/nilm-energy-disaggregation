@@ -1,0 +1,10 @@
+[Unit]
+Description=Run REEFLEX NILM daily pipeline once per day
+
+[Timer]
+OnCalendar=*-*-* 02:30:00
+Persistent=true
+Unit=reeflex-nilm-daily.service
+
+[Install]
+WantedBy=timers.target

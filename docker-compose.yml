@@ -9,10 +9,12 @@ services:
     image: reeflex-nilm:cpu
     container_name: reeflex-nilm-cpu
     working_dir: /workspace
+    user: "${LOCAL_UID:-0}:${LOCAL_GID:-0}"
     volumes:
       - ./:/workspace
     environment:
       - PYTHONUNBUFFERED=1
+      - TZ=${TZ:-Europe/Athens}
     command: ["--config", "configs/active/release_eval.yaml"]
 
   reeflex-nilm-gpu:
@@ -25,10 +27,50 @@ services:
     image: reeflex-nilm:gpu
     container_name: reeflex-nilm-gpu
     working_dir: /workspace
+    user: "${LOCAL_UID:-0}:${LOCAL_GID:-0}"
     volumes:
       - ./:/workspace
     environment:
       - PYTHONUNBUFFERED=1
+      - TZ=${TZ:-Europe/Athens}
       - CUDA_VISIBLE_DEVICES=${CUDA_VISIBLE_DEVICES:-0}
     gpus: all
     command: ["--config", "configs/active/release_eval.yaml"]
+
+  reeflex-nilm-daily:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        TORCH_VERSION: ${TORCH_VERSION:-2.5.1}
+        TORCH_INDEX_URL: ${TORCH_INDEX_URL_CPU:-https://download.pytorch.org/whl/cpu}
+    image: reeflex-nilm:cpu
+    working_dir: /workspace
+    user: "${LOCAL_UID:-0}:${LOCAL_GID:-0}"
+    volumes:
+      - ./:/workspace
+    environment:
+      - PYTHONUNBUFFERED=1
+      - TZ=${TZ:-Europe/Athens}
+      - SEL_API_EMAIL=${SEL_API_EMAIL:-}
+      - SEL_API_PASSWORD=${SEL_API_PASSWORD:-}
+      - DAILY_PARTICIPANTS=${DAILY_PARTICIPANTS:-}
+      - DAILY_BASE_CONFIG=${DAILY_BASE_CONFIG:-configs/active/release_eval.yaml}
+      - DAILY_HOUSE_OVERRIDES=${DAILY_HOUSE_OVERRIDES:-configs/active/house_overrides_daily.example.yaml}
+      - DAILY_OUTPUT_DIR=${DAILY_OUTPUT_DIR:-DATA/daily_sel_api}
+      - DAILY_SPLIT=${DAILY_SPLIT:-test}
+      - DAILY_TARGET_DATE=${DAILY_TARGET_DATE:-}
+      - DAILY_SAMPLING_MINUTES=${DAILY_SAMPLING_MINUTES:-1}
+      - DAILY_ENERGY_UNIT=${DAILY_ENERGY_UNIT:-kwh_per_interval}
+      - DAILY_OUTPUT_POWER_UNIT=${DAILY_OUTPUT_POWER_UNIT:-w}
+      - DAILY_MAX_MISSING_RATIO=${DAILY_MAX_MISSING_RATIO:-0.2}
+      - DAILY_ALLOWED_FINAL_MAINS_MISSING_RATIO=${DAILY_ALLOWED_FINAL_MAINS_MISSING_RATIO:-0.0}
+      - DAILY_INTERPOLATE_MAX_GAP_POINTS=${DAILY_INTERPOLATE_MAX_GAP_POINTS:-3}
+      - DAILY_INTERPOLATE_METHOD=${DAILY_INTERPOLATE_METHOD:-time}
+      - DAILY_KEEP_GOING=${DAILY_KEEP_GOING:-1}
+      - DAILY_KEEP_PARTICIPANT_FILTER=${DAILY_KEEP_PARTICIPANT_FILTER:-0}
+      - DAILY_FETCH_ONLY=${DAILY_FETCH_ONLY:-0}
+      - DAILY_EVAL_ONLY=${DAILY_EVAL_ONLY:-0}
+      - DAILY_MERGED_CSV=${DAILY_MERGED_CSV:-}
+      - DAILY_PRINT_ONLY=${DAILY_PRINT_ONLY:-0}
+    entrypoint: ["/bin/sh", "scripts/run_daily_production.sh"]

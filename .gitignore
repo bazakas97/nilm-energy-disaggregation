@@ -1,6 +1,7 @@
 # Large datasets / generated artifacts (do not commit)
 DATA/
 results/
+logs/
 
 # Python cache / artifacts
 __pycache__/
@@ -26,4 +27,4 @@ SEL_API.local.md
 .DS_Store
 .idea/
 .vscode/
-
+demo/portfolio_dashboard/assets/plots/

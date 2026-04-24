@@ -1,0 +1,13 @@
+[Unit]
+Description=REEFLEX NILM daily SEL fetch + inference
+Requires=docker.service
+After=docker.service
+
+[Service]
+Type=oneshot
+WorkingDirectory=/opt/reeflex-nilm
+ExecStart=/usr/bin/docker compose run --rm -T reeflex-nilm-daily
+TimeoutStartSec=2h
+
+[Install]
+WantedBy=multi-user.target

@@ -87,6 +87,12 @@ def parse_args():
         help="Drop house/day if mains missing ratio is above this value.",
     )
     parser.add_argument(
+        "--allowed-final-mains-missing-ratio",
+        type=float,
+        default=0.0,
+        help="Allow and fill this final mains missing ratio after interpolation.",
+    )
+    parser.add_argument(
         "--interpolate-max-gap-points",
         type=int,
         default=3,
@@ -158,6 +164,8 @@ def main():
             args.output_power_unit,
             "--max-missing-ratio",
             str(args.max_missing_ratio),
+            "--allowed-final-mains-missing-ratio",
+            str(args.allowed_final_mains_missing_ratio),
             "--interpolate-max-gap-points",
             str(args.interpolate_max_gap_points),
             "--interpolate-method",
@@ -167,6 +175,8 @@ def main():
             fetch_cmd.extend(["--email", args.email])
         if args.password:
             fetch_cmd.extend(["--password", args.password])
+        if args.keep_going:
+            fetch_cmd.append("--keep-going")
         run_cmd(fetch_cmd, cwd=project_dir, print_only=args.print_only)
 
     if args.fetch_only:

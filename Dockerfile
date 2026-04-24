@@ -6,12 +6,14 @@ ARG TORCH_INDEX_URL=https://download.pytorch.org/whl/cpu
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     PIP_NO_CACHE_DIR=1 \
-    MPLBACKEND=Agg
+    MPLBACKEND=Agg \
+    TZ=Europe/Athens
 
 WORKDIR /app
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
     libgomp1 \
+    tzdata \
     && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt /app/requirements.txt

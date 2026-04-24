@@ -118,6 +118,15 @@ def parse_args():
         help="Drop participant/day if mains missing ratio exceeds this value.",
     )
     parser.add_argument(
+        "--allowed-final-mains-missing-ratio",
+        type=float,
+        default=0.0,
+        help=(
+            "Allow this final mains missing ratio after interpolation and fill remaining "
+            "mains gaps. Keep 0.0 for strict evaluation; use a small value for production."
+        ),
+    )
+    parser.add_argument(
         "--interpolate-max-gap-points",
         type=int,
         default=3,
@@ -136,6 +145,23 @@ def parse_args():
         type=float,
         default=1.0,
         help="Sleep between sequential SEL API requests for the same participant.",
+    )
+    parser.add_argument(
+        "--max-api-attempts",
+        type=int,
+        default=3,
+        help="Maximum number of attempts for each SEL API request.",
+    )
+    parser.add_argument(
+        "--retry-sleep-seconds",
+        type=float,
+        default=5.0,
+        help="Sleep between failed SEL API attempts.",
+    )
+    parser.add_argument(
+        "--keep-going",
+        action="store_true",
+        help="Continue to the next participant if one participant fails.",
     )
     return parser.parse_args()
 
@@ -171,6 +197,38 @@ def call_sel_api(session, fetch_url, access_token, params, timeout):
     response = session.get(fetch_url, params=params, headers=headers, timeout=timeout)
     response.raise_for_status()
     return response.json()
+
+
+def call_sel_api_with_retry(
+    session,
+    fetch_url,
+    access_token,
+    params,
+    timeout,
+    max_attempts,
+    retry_sleep_seconds,
+):
+    last_exc = None
+    attempts = max(1, int(max_attempts))
+    for attempt in range(1, attempts + 1):
+        try:
+            return call_sel_api(
+                session=session,
+                fetch_url=fetch_url,
+                access_token=access_token,
+                params=params,
+                timeout=timeout,
+            )
+        except requests.RequestException as exc:
+            last_exc = exc
+            if attempt >= attempts:
+                break
+            print(
+                f"    request failed (attempt {attempt}/{attempts}): {exc}. "
+                f"Retrying in {float(retry_sleep_seconds):.1f}s"
+            )
+            time.sleep(float(retry_sleep_seconds))
+    raise last_exc
 
 
 def build_day_index(target_date, sampling_minutes):
@@ -230,6 +288,10 @@ def regularize_and_interpolate(
     return filled, missing_before, missing_after
 
 
+def fill_remaining_mains_gaps(series):
+    return series.ffill().bfill()
+
+
 def aggregate_device_series(
     rows,
     fallback_sampling_minutes,
@@ -258,6 +320,18 @@ def aggregate_device_series(
     return grouped_power, period_minutes
 
 
+def flatten_measurement_rows(value):
+    """SEL sometimes returns sub-sensor maps instead of a flat rows list."""
+    if isinstance(value, list):
+        return value
+    if isinstance(value, dict):
+        rows = []
+        for nested_value in value.values():
+            rows.extend(flatten_measurement_rows(nested_value))
+        return rows
+    return []
+
+
 def build_daily_frame(
     fetch_payload,
     participant,
@@ -266,6 +340,7 @@ def build_daily_frame(
     energy_unit,
     output_power_unit,
     max_missing_ratio,
+    allowed_final_mains_missing_ratio,
     interpolate_max_gap_points,
     interpolate_method,
 ):
@@ -275,11 +350,12 @@ def build_daily_frame(
 
     series_by_col = {}
     period_minutes_by_col = {}
-    for device_type, rows in data_block.items():
+    for device_type, raw_rows in data_block.items():
         column = map_device_to_column(device_type)
         if column is None:
             continue
-        if not isinstance(rows, list) or len(rows) == 0:
+        rows = flatten_measurement_rows(raw_rows)
+        if len(rows) == 0:
             continue
 
         grouped_power, period_minutes = aggregate_device_series(
@@ -333,6 +409,16 @@ def build_daily_frame(
             ),
             "missing": missing_stats,
         }
+    filled_remaining_mains_points = 0
+    if mains_missing_after > 0.0 and mains_missing_after <= float(allowed_final_mains_missing_ratio):
+        mains_before_fill = regularized["energy_mains"]
+        filled_remaining_mains_points = int(mains_before_fill.isna().sum())
+        regularized["energy_mains"] = fill_remaining_mains_gaps(mains_before_fill)
+        missing_stats["energy_mains"]["missing_after_final_fill"] = int(
+            regularized["energy_mains"].isna().sum()
+        )
+        missing_stats["energy_mains"]["filled_remaining_points"] = filled_remaining_mains_points
+        mains_missing_after = float(missing_stats["energy_mains"]["missing_after_final_fill"] / total_points) if total_points else 1.0
     if mains_missing_after > 0.0:
         return pd.DataFrame(columns=OUTPUT_COLUMNS), {
             "rows": 0,
@@ -365,6 +451,7 @@ def build_daily_frame(
         "status": "ok",
         "missing": missing_stats,
         "output_power_unit": output_power_unit,
+        "filled_remaining_mains_points": filled_remaining_mains_points,
     }
 
 
@@ -400,67 +487,90 @@ def main():
     summary = {}
     for participant in participants:
         print(f"Fetching participant: {participant}")
+        try:
+            sensors_payload = call_sel_api_with_retry(
+                session=session,
+                fetch_url=args.fetch_url,
+                access_token=access_token,
+                params={
+                    "request_type": "get_sensors_list",
+                    "participant_permanent_code": participant,
+                },
+                timeout=args.timeout,
+                max_attempts=args.max_api_attempts,
+                retry_sleep_seconds=args.retry_sleep_seconds,
+            )
+            if float(args.inter_request_sleep_seconds) > 0:
+                time.sleep(float(args.inter_request_sleep_seconds))
+            fetch_payload = call_sel_api_with_retry(
+                session=session,
+                fetch_url=args.fetch_url,
+                access_token=access_token,
+                params={
+                    "request_type": "fetch",
+                    "participant_permanent_code": participant,
+                    "start_date": str(target_date),
+                },
+                timeout=args.timeout,
+                max_attempts=args.max_api_attempts,
+                retry_sleep_seconds=args.retry_sleep_seconds,
+            )
 
-        sensors_payload = call_sel_api(
-            session=session,
-            fetch_url=args.fetch_url,
-            access_token=access_token,
-            params={
-                "request_type": "get_sensors_list",
-                "participant_permanent_code": participant,
-            },
-            timeout=args.timeout,
-        )
-        if float(args.inter_request_sleep_seconds) > 0:
-            time.sleep(float(args.inter_request_sleep_seconds))
-        fetch_payload = call_sel_api(
-            session=session,
-            fetch_url=args.fetch_url,
-            access_token=access_token,
-            params={
-                "request_type": "fetch",
-                "participant_permanent_code": participant,
-                "start_date": str(target_date),
-            },
-            timeout=args.timeout,
-        )
+            sensors_path = os.path.join(out_day_dir, f"{participant}_sensors.json")
+            raw_path = os.path.join(out_day_dir, f"{participant}_raw.json")
+            with open(sensors_path, "w", encoding="utf-8") as f:
+                json.dump(sensors_payload, f, ensure_ascii=False, indent=2)
+            with open(raw_path, "w", encoding="utf-8") as f:
+                json.dump(fetch_payload, f, ensure_ascii=False, indent=2)
 
-        sensors_path = os.path.join(out_day_dir, f"{participant}_sensors.json")
-        raw_path = os.path.join(out_day_dir, f"{participant}_raw.json")
-        with open(sensors_path, "w", encoding="utf-8") as f:
-            json.dump(sensors_payload, f, ensure_ascii=False, indent=2)
-        with open(raw_path, "w", encoding="utf-8") as f:
-            json.dump(fetch_payload, f, ensure_ascii=False, indent=2)
-
-        part_df, stats = build_daily_frame(
-            fetch_payload=fetch_payload,
-            participant=participant,
-            target_date=target_date,
-            sampling_minutes=int(args.sampling_minutes),
-            energy_unit=args.energy_unit,
-            output_power_unit=args.output_power_unit,
-            max_missing_ratio=float(args.max_missing_ratio),
-            interpolate_max_gap_points=int(args.interpolate_max_gap_points),
-            interpolate_method=args.interpolate_method,
-        )
-        part_csv = os.path.join(out_day_dir, f"{participant}.csv")
-        part_df.to_csv(part_csv, index=False)
-        summary[participant] = {
-            **stats,
-            "csv": part_csv,
-            "raw_json": raw_path,
-            "sensors_json": sensors_path,
-        }
-        if len(part_df):
-            merged_frames.append(part_df)
-        print(
-            f"  status={stats.get('status')} rows={stats.get('rows')} "
-            f"unit={stats.get('output_power_unit', args.output_power_unit)}"
-        )
+            part_df, stats = build_daily_frame(
+                fetch_payload=fetch_payload,
+                participant=participant,
+                target_date=target_date,
+                sampling_minutes=int(args.sampling_minutes),
+                energy_unit=args.energy_unit,
+                output_power_unit=args.output_power_unit,
+                max_missing_ratio=float(args.max_missing_ratio),
+                allowed_final_mains_missing_ratio=float(args.allowed_final_mains_missing_ratio),
+                interpolate_max_gap_points=int(args.interpolate_max_gap_points),
+                interpolate_method=args.interpolate_method,
+            )
+            part_csv = os.path.join(out_day_dir, f"{participant}.csv")
+            part_df.to_csv(part_csv, index=False)
+            summary[participant] = {
+                **stats,
+                "csv": part_csv,
+                "raw_json": raw_path,
+                "sensors_json": sensors_path,
+            }
+            if len(part_df):
+                merged_frames.append(part_df)
+            print(
+                f"  status={stats.get('status')} rows={stats.get('rows')} "
+                f"unit={stats.get('output_power_unit', args.output_power_unit)}"
+            )
+        except Exception as exc:
+            error_text = f"{type(exc).__name__}: {exc}"
+            summary[participant] = {
+                "rows": 0,
+                "status": "fetch_failed",
+                "reason": error_text,
+            }
+            print(f"  status=fetch_failed rows=0 reason={error_text}")
+            if not args.keep_going:
+                raise
 
     merged_csv = os.path.join(out_day_dir, f"daily_{day_tag}_merged.csv")
     if merged_frames:
-        merged_df = pd.concat(merged_frames, axis=0, ignore_index=True)
+        merged_df = pd.concat(
+            [df.dropna(axis=1, how="all") for df in merged_frames if not df.empty],
+            axis=0,
+            ignore_index=True,
+        )
+        for col in OUTPUT_COLUMNS:
+            if col not in merged_df.columns:
+                merged_df[col] = np.nan
+        merged_df = merged_df[OUTPUT_COLUMNS]
         merged_df["timestamp"] = pd.to_datetime(merged_df["timestamp"], errors="coerce")
         merged_df = merged_df.sort_values(["participant", "timestamp"]).reset_index(drop=True)
         merged_df["timestamp"] = merged_df["timestamp"].dt.strftime("%Y-%m-%d %H:%M:%S")
