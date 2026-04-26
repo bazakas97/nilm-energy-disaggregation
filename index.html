@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>REEFLEX NILM Demo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8/hammer.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1/dist/chartjs-plugin-zoom.min.js"></script>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Portfolio Demo</p>
+          <h1>Interactive NILM Showcase</h1>
+          <p class="hero-text">
+            Explore energy disaggregation results across multiple homes, dates, and appliances
+            using the REEFLEX NILM model. Ground truth vs. model prediction — per appliance, per minute.
+          </p>
+        </div>
+        <div class="hero-stats">
+          <div class="stat-card">
+            <span class="stat-label">Model</span>
+            <strong id="hero-model">-</strong>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">Dates</span>
+            <strong id="hero-dates">-</strong>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">Homes</span>
+            <strong id="hero-houses">-</strong>
+          </div>
+        </div>
+      </header>
+
+      <main class="dashboard">
+        <!-- Controls bar -->
+        <section class="controls-bar panel">
+          <label class="field">
+            <span>Date</span>
+            <select id="date-select"></select>
+          </label>
+          <label class="field">
+            <span>Household</span>
+            <select id="house-select"></select>
+          </label>
+          <label class="field">
+            <span>Device</span>
+            <select id="device-select"></select>
+          </label>
+        </section>
+
+        <!-- Chart -->
+        <section class="plot-panel panel">
+          <div class="plot-head">
+            <h2 id="plot-title">-</h2>
+            <div id="teca-badge" class="metric-badge" style="display:none">
+              <span>TECA</span>
+              <span class="badge-val" id="teca-val">-</span>
+            </div>
+            <div id="f1-badge" class="metric-badge" style="display:none">
+              <span>ON/OFF F1</span>
+              <span class="badge-val" id="f1-val">-</span>
+            </div>
+            <button id="reset-zoom" class="reset-zoom-btn" style="display:none">↺ Reset zoom</button>
+            <p id="plot-subtitle" class="plot-subtitle">-</p>
+          </div>
+          <div id="chart-container">
+            <div id="chart-loading" class="chart-loading">Loading…</div>
+            <canvas id="plot-chart"></canvas>
+          </div>
+        </section>
+
+        <!-- Metrics + featured -->
+        <div class="info-row">
+          <section class="metrics-panel panel">
+            <div class="panel-header">
+              <p class="eyebrow">Metrics</p>
+              <h2>Device performance</h2>
+            </div>
+            <div class="metric-grid" id="device-metrics"></div>
+          </section>
+
+          <section class="featured-panel panel">
+            <div class="panel-header">
+              <p class="eyebrow">Highlights</p>
+              <h2>Featured examples</h2>
+            </div>
+            <div id="featured-cards" class="featured-cards"></div>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
