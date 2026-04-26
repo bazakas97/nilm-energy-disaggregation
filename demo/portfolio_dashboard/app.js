@@ -44,11 +44,13 @@ function f1Color(f1) {
   return f1>=0.85 ? "#34d399" : f1>=0.65 ? "#fbbf24" : "#f87171";
 }
 
+const TECA_MIN = 75;
+
 function isDeviceGood(manifest, date, house, device) {
   const m = manifest.by_date[date]?.metrics?.[house]?.overall?.[device];
   if (!m) return false;
-  // hide only if the device was genuinely never active (nothing to show)
   if (!m.active_points) return false;
+  if (m.teca != null && m.teca < TECA_MIN) return false;
   return true;
 }
 
